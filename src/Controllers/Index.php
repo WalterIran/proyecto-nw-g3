@@ -31,10 +31,10 @@ class Index extends PublicController
     {
         // Addlink para agregar archivos css propios de la pantalla
         // sin afectar todo el layout
-        \Utilities\Site::addLink("public/css/test.css");
+        //\Utilities\Site::addLink("public/css/test.css");
 
         //Para agregar scripts de javascript externos
-        \Utilities\Site::addEndScript("public/js/sayhello.js");
+        //\Utilities\Site::addEndScript("public/js/sayhello.js");
 
         $viewData = array();
 
