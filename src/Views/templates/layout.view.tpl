@@ -69,8 +69,8 @@
       </div>
     </div>
     <div class="w-full lg:hidden px-4 mt-2">
-      <div class="w-full rounded-full mx-auto border border-gray-200 flex items-center py-2 px-6">
-        <form action="index.php" method="get">
+      <form action="index.php" method="get">
+        <div class="w-full rounded-full mx-auto border border-gray-200 flex items-center py-2 px-6">
           <input type="hidden" name="page" value="products"/>
           <input name="search" id="searchMovil" class="flex-auto h-full outline-none" type="text" placeholder="Busca tus medicamentos">
           <button id="btnSearchMovil" type="submit" class="transform hover:scale-110 duration-100 transition-all">
@@ -78,8 +78,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
     <nav id="movil-menu" class="fixed inset-0 lg:hidden z-50 transition-all duration-300 transform -translate-x-full">
       <div class="bg-black opacity-50 fixed inset-0"></div>
