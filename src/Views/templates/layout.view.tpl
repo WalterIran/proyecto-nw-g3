@@ -154,7 +154,7 @@
       </div>
     </nav>
   </header>
-  <main class="p-4" style="min-height: calc(100vh - 120px);">
+  <main class="p-4 bg-green-50" style="min-height: calc(100vh - 120px);">
   {{{page_content}}}
   </main>
   <footer class="bg-green-500 flex justify-center items-center p-4 text-white">
