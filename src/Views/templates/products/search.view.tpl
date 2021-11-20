@@ -1,6 +1,6 @@
 <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
 
-<section class="grid justify-items-center gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 m-auto bg-white w-full h-full" style="max-width: 1340px;">
+<section class="grid justify-items-center gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 m-auto w-full h-full" style="max-width: 1340px;">
     
     <!-- <div class="px-4 py-3 w-64 h-80 bg-gray-50 rounded-md shadow-md transition-all duration-100 hover:shadow-lg cursor-pointer">
         <div class="flex flex-col">
@@ -37,7 +37,7 @@
         </div>
     </div> -->
     {{foreach products}}
-    <div id="{{id}}" class="product px-4 py-3 w-64 h-80 bg-gray-50 rounded-md shadow-md transition-all duration-100 hover:shadow-lg cursor-pointer">
+    <div id="{{id}}" class="product bg-white px-4 py-3 w-64 h-80 rounded-md shadow-md transition-all duration-100 hover:shadow-lg cursor-pointer">
         <div class="flex flex-col">
             <div class="flex flex-col items-center">
                 <h2 class="text-sm font-bold">{{name}}</h2>

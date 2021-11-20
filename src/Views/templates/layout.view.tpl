@@ -17,17 +17,22 @@
 <body>
   <header class="sticky bg-white flex justify-between flex-wrap lg:flex-nowrap lg:justify-center items-center py-2 lg:px-16 shadow-md lg:h-16">
     <div class="lg:w-64">
-      <img class="w-32 lg:w-44 object-contain" src="https://farmaciasdelahorro.hn/logo-principal.png" alt="logo principal">
+      <a href="index.php">
+        <img class="w-32 lg:w-44 object-contain" src="https://farmaciasdelahorro.hn/logo-principal.png" alt="logo principal">
+      </a>
     </div>
     <div class="flex-auto hidden lg:block">
-      <div class="w-3/5 rounded-full mx-auto border border-gray-200 flex items-center py-2 px-6">
-        <input class="flex-auto h-full outline-none" type="text" placeholder="Busca tus medicamentos" name="search" id="search">
-        <button type="button" class="transform hover:scale-110 duration-100 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </button>
-      </div>
+      <form action="index.php" method="get">
+        <div class="w-3/5 rounded-full mx-auto border border-gray-200 flex items-center py-2 px-6">
+          <input type="hidden" name="page" value="products"/>
+          <input name="search" id="searchDesktop" class="flex-auto h-full outline-none" type="text" placeholder="Busca tus medicamentos" >
+          <button type="submit" id="btnSearchDesktop" class="transform hover:scale-110 duration-100 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+      </form>
     </div>
     <div class="px-4 lg:px-0 lg:w-64 flex justify-center space-x-4 lg:space-x-2">
       <a href="" class="flex relative">
@@ -65,12 +70,15 @@
     </div>
     <div class="w-full lg:hidden px-4 mt-2">
       <div class="w-full rounded-full mx-auto border border-gray-200 flex items-center py-2 px-6">
-        <input class="flex-auto h-full outline-none" type="text" placeholder="Busca tus medicamentos" name="search" id="search">
-        <button type="button" class="transform hover:scale-110 duration-100 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </button>
+        <form action="index.php" method="get">
+          <input type="hidden" name="page" value="products"/>
+          <input name="search" id="searchMovil" class="flex-auto h-full outline-none" type="text" placeholder="Busca tus medicamentos">
+          <button id="btnSearchMovil" type="submit" class="transform hover:scale-110 duration-100 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </form>
       </div>
     </div>
     <nav id="movil-menu" class="fixed inset-0 lg:hidden z-50 transition-all duration-300 transform -translate-x-full">
@@ -146,7 +154,7 @@
       </div>
     </nav>
   </header>
-  <main class="p-4" style="min-height: calc(100vh - 120px);">
+  <main class="p-4 bg-green-50" style="min-height: calc(100vh - 120px);">
   {{{page_content}}}
   </main>
   <footer class="bg-green-500 flex justify-center items-center p-4 text-white">
@@ -170,6 +178,17 @@
 
         movilMenu.classList.remove("translate-x-0");
         movilMenu.classList.add("-translate-x-full");
+      });
+
+      document.getElementById("searchDesktop").addEventListener("keypress", function (e) {
+        if(e.key === 'Enter'){
+          document.getElementById("btnSearchDesktop").click();
+        }
+      });
+      document.getElementById("searchMovil").addEventListener("keypress", function (e) {
+        if(e.key === 'Enter'){
+          document.getElementById("btnSearchMovil").click();
+        }
       });
 
     });
