@@ -17,7 +17,7 @@ userpswdexp datetime
 userest     char(3)
 useractcod  varchar(128)
 userpswdchg varchar(128)
-usertipo    char(3)
+userrole    char(3)
 
  */
 
@@ -47,7 +47,7 @@ class Security extends \Dao\Table
         return self::obtenerRegistros($sqlstr, array());
     }
 
-    static public function newUsuario($email, $password)
+    static public function newUsuario($user, $email, $password, $name, $phone, $phone2, $address, $gender)
     {
         if (!\Utilities\Validators::IsValidEmail($email)) {
             throw new Exception("Correo no es válido");
@@ -60,26 +60,18 @@ class Security extends \Dao\Table
         //Tratamiento de la Contraseña
         $hashedPassword = self::_hashPassword($password);
 
-        unset($newUser["usercod"]);
-        unset($newUser["userfching"]);
-        unset($newUser["userpswdchg"]);
-
+        $newUser["user"] = $user;
         $newUser["useremail"] = $email;
-        $newUser["username"] = "John Doe";
-        $newUser["userpswd"] = $hashedPassword;
-        $newUser["userpswdest"] = Estados::ACTIVO;
-        $newUser["userpswdexp"] = date('Y-m-d', time() + 7776000);  //(3*30*24*60*60) (m d h mi s)
+        $newUser["userpswd"] = $hashedPassword;//(3*30*24*60*60) (m d h mi s)
+        $newUser["username"] = $name;
+        $newUser["userphone"] = $phone;
+        $newUser["userphone2"] = $phone2;
+        $newUser["useraddress"] = $address;
         $newUser["userest"] = Estados::ACTIVO;
-        $newUser["useractcod"] = hash("sha256", $email.time());
-        $newUser["usertipo"] = UsuarioTipo::PUBLICO;
+        $newUser["userrole"] = UsuarioTipo::PUBLICO;
+        $newUser["usergender"] = $gender;
 
-        $sqlIns = "INSERT INTO `usuario` (`useremail`, `username`, `userpswd`,
-            `userfching`, `userpswdest`, `userpswdexp`, `userest`, `useractcod`,
-            `userpswdchg`, `usertipo`)
-            VALUES
-            ( :useremail, :username, :userpswd,
-            now(), :userpswdest, :userpswdexp, :userest, :useractcod,
-            now(), :usertipo);";
+        $sqlIns = "INSERT INTO usuarios (user, useremail, userpswd, username, userphone, userphone2, useraddress, userest, userrole, usergender) VALUES( :user, :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userest, :userrole, :usergender);";
 
         return self::executeNonQuery($sqlIns, $newUser);
 
@@ -87,7 +79,7 @@ class Security extends \Dao\Table
 
     static public function getUsuarioByEmail($email)
     {
-        $sqlstr = "SELECT * from `usuario` where `useremail` = :useremail ;";
+        $sqlstr = "SELECT * from usuarios where useremail = :useremail ;";
         $params = array("useremail"=>$email);
 
         return self::obtenerUnRegistro($sqlstr, $params);
@@ -119,17 +111,15 @@ class Security extends \Dao\Table
     static private function _usuarioStruct()
     {
         return array(
-            "usercod"      => "",
+            "user"         => "",
             "useremail"    => "",
-            "username"     => "",
             "userpswd"     => "",
-            "userfching"   => "",
-            "userpswdest"  => "",
-            "userpswdexp"  => "",
+            "username"     => "",
+            "userphone"    => "",
+            "useraddress"  => "",
             "userest"      => "",
-            "useractcod"   => "",
-            "userpswdchg"  => "",
-            "usertipo"     => "",
+            "userrole"     => "",
+            "usergender"   => "",
         );
     }
 
@@ -142,7 +132,7 @@ class Security extends \Dao\Table
 
     static public function addNewFeature($fncod, $fndsc, $fnest, $fntyp )
     {
-        $sqlins = "INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`)
+        $sqlins = "INSERT INTO funciones (fncod, fndsc, fnest, fntyp)
             VALUES (:fncod , :fndsc , :fnest , :fntyp );";
 
         return self::executeNonQuery(
@@ -181,7 +171,7 @@ class Security extends \Dao\Table
 
     static public function addNewRol($rolescod, $rolesdsc, $rolesest)
     {
-        $sqlins = "INSERT INTO `roles` (`rolescod`, `rolesdsc`, `rolesest`)
+        $sqlins = "INSERT INTO roles (rolescod, rolesdsc, rolesest)
         VALUES (:rolescod, :rolesdsc, :rolesest);";
 
         return self::executeNonQuery(

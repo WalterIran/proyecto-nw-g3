@@ -67,6 +67,7 @@ abstract class Table
         foreach ($params as $key=>&$value) {
             $query->bindParam(":".$key, $value, self::getBindType($value));
         }
+        //dd($query);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
         return $query->fetchAll();
@@ -102,6 +103,7 @@ abstract class Table
         foreach ($params as $key => &$value) {
             $query->bindParam(":" . $key, $value, self::getBindType($value));
         }
+//dd($query->execute());
         return $query->execute();
     }
 
