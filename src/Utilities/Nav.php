@@ -19,6 +19,13 @@ class Nav {
                 "nav_label" => "Partituras"
             );
         }
+
+        if (\Utilities\Security::isAuthorized($userID, "WW_Clientes")) {
+            $tmpNAVIGATION[] = array(
+                "nav_url" => "index.php?page=mnt_clientes",
+                "nav_label" => "Clientes"
+            );
+        }
        
         \Utilities\Context::setContext("NAVIGATION", $tmpNAVIGATION);
     }

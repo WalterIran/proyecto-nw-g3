@@ -1,0 +1,43 @@
+th{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    font-weight: 500;
+    letter-spacing: 0.05em;
+
+    text-align: center;
+    --tw-text-opacity: 1;
+    color: rgba(107, 114, 128, var(--tw-text-opacity));
+
+    border-bottom-width: 1px;
+    text-transform: uppercase;
+
+    --tw-border-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+
+    --tw-bg-opacity: 1;
+    background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
+}
+
+td{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    white-space: nowrap;
+    border-bottom-width: 1px;
+    text-align: center;
+
+    --tw-border-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    
+}
