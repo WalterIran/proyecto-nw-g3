@@ -1,4 +1,4 @@
-<section class="min-h-full flex items-center justify-center py-12 px-6 sm:px-6 lg:px-8 bg-white rounded-lg mx-20">
+<section class="min-h-full flex items-center justify-center py-12 px-6 sm:px-6 lg:px-8 bg-white rounded-lg lg:mx-20">
   <form class=" max-w-md w-full space-y-8 mt-8 space-y-6" method="post" action="index.php?page=sec_login&redirto={{redirto}}{{endif redirto}}">
     <section class="depth-1 row col-12 col-m-8 offset-m-2 col-xl-6 offset-xl-3">
       <h1 class="mt-6 text-center text-3xl font-extrabold text-green-600">Inicio de Sesión</h1>

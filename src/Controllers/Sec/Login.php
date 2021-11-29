@@ -97,18 +97,6 @@ class Login extends \Controllers\PublicController
                     $this->generalError = "¡Credenciales son incorrectas!";
                 }
             }
-        } else{
-            if (isset($_GET["mode"])) {
-                $mode = $_GET["mode"];
-            }
-        }
-
-        $modeDscArr = array(
-            "LOG" => "Inicio de Sesión",
-            "CFM" => "Confrimación",
-        );
-        if ($mode === "INS") {
-            $mode_dsc = $modeDscArr["INS"];
         }
 
         $dataView = get_object_vars($this);
