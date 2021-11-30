@@ -26,6 +26,13 @@ class Nav {
                 "nav_label" => "Clientes"
             );
         }
+
+        if (\Utilities\Security::isAuthorized($userID, "WW_Products")) {
+            $tmpNAVIGATION[] = array(
+                "nav_url" => "index.php?page=mnt_products",
+                "nav_label" => "Productos"
+            );
+        }
        
         \Utilities\Context::setContext("NAVIGATION", $tmpNAVIGATION);
     }
