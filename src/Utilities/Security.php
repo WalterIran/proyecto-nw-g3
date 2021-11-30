@@ -44,6 +44,7 @@ class Security {
     }
     public static function isAuthorized($userId, $function):bool
     {
+        //dd($function);
         if (\Utilities\Context::getContextByKey("DEVELOPMENT") == "1") {
             $functionInDb = \Dao\Security\Security::getFeature($function);
             if (!$functionInDb) {

@@ -2,8 +2,28 @@
 namespace Controllers\Sec;
 class Login extends \Controllers\PublicController
 {
+
+    private function nope()
+    {
+        \Utilities\Site::redirectToWithMsg(
+
+            "index.php",
+            "Ocurrió algo inesperado. Intente Nuevamente."
+        );
+    }
+
+    private function yeah()
+    {
+        \Utilities\Site::redirectToWithMsg(
+            "index.php",
+            "Operación ejecutada Satisfactoriamente!"
+        );
+    }
+
     private $txtEmail = "";
     private $txtPswd = "";
+    private $mode_dsc = "";
+    private $mode = "";
     private $errorEmail = "";
     private $errorPswd = "";
     private $generalError = "";
@@ -12,6 +32,7 @@ class Login extends \Controllers\PublicController
     public function run() :void
     {
         if ($this->isPostBack()) {
+
             $this->txtEmail = $_POST["txtEmail"];
             $this->txtPswd = $_POST["txtPswd"];
 
@@ -24,6 +45,7 @@ class Login extends \Controllers\PublicController
                 $this->hasError = true;
             }
             if (! $this->hasError) {
+
                 if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($this->txtEmail)) {
                     if ($dbUser["userest"] != \Dao\Security\Estados::ACTIVO) {
                         $this->generalError = "¡Credenciales son incorrectas!";
@@ -31,7 +53,7 @@ class Login extends \Controllers\PublicController
                         error_log(
                             sprintf(
                                 "ERROR: %d %s tiene cuenta con estado %s",
-                                $dbUser["usercod"],
+                                $dbUser["user"],
                                 $dbUser["useremail"],
                                 $dbUser["userest"]
                             )
@@ -43,7 +65,7 @@ class Login extends \Controllers\PublicController
                         error_log(
                             sprintf(
                                 "ERROR: %d %s contraseña incorrecta",
-                                $dbUser["usercod"],
+                                $dbUser["user"],
                                 $dbUser["useremail"]
                             )
                         );
@@ -51,10 +73,11 @@ class Login extends \Controllers\PublicController
                     }
                     if (! $this->hasError) {
                         \Utilities\Security::login(
-                            $dbUser["usercod"],
+                            $dbUser["user"],
                             $dbUser["username"],
                             $dbUser["useremail"]
                         );
+                        //dd("aqui se hizo login");
                         if (\Utilities\Context::getContextByKey("redirto") !== "") {
                             \Utilities\Site::redirectTo(
                                 \Utilities\Context::getContextByKey("redirto")
@@ -74,7 +97,9 @@ class Login extends \Controllers\PublicController
                 }
             }
         }
+
         $dataView = get_object_vars($this);
+        //dd($dataView);
         \Views\Renderer::render("security/login", $dataView);
     }
 }
