@@ -124,8 +124,6 @@ class Register extends PublicController
                                 $viewData['userest'],
                                 $viewData['userrole']
                             )
-
-                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['usercod'], $viewData["userroles"])
                         ) {
                             $this->yeah();
                         } else if (
@@ -136,7 +134,6 @@ class Register extends PublicController
                                 $viewData['userest'],
                                 $viewData['userrole']
                             )
-                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['usercod'], $viewData["userroles"])
                         ) {
                             $this->yeah();
                         }
@@ -170,16 +167,13 @@ class Register extends PublicController
             "DEL" => "Eliminar usuario (%s)",
             "DSP" => "Detalle del usuario (%s)",
         );
-        //$tmpAvailableRoles = \Dao\Mnt\Usuarios::getUsuarios($viewData["user"]);
         if ($viewData["mode"] === "INS") {
             $viewData["mode_dsc"] = $modeDscArr["INS"];
-            //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = true;
         } else {
             
             $viewData["showactionins"] = false;
             $tmpUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['usercod']);
-            //$tmpUserRoles = \Dao\Security\Security::getRolesByUsuario($viewData["user"]);
 
             $viewData['useremail'] = $tmpUsuario['useremail'];
             $viewData['username'] = $tmpUsuario['username'];
@@ -189,7 +183,6 @@ class Register extends PublicController
             $viewData['useraddress'] = $tmpUsuario['useraddress'];
             $viewData['userest'] = $tmpUsuario['userest'];
             $viewData['userrole'] = $tmpUsuario['userrole'];
-            //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = false;
 
             $viewData["mode_dsc"] = sprintf(
