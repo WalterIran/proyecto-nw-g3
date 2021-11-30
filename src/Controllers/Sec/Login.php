@@ -78,14 +78,13 @@ class Login extends \Controllers\PublicController
                             $dbUser["useremail"]
                         );
                         //dd("aqui se hizo login");
-                        $this->yeah();
-                        /*if (\Utilities\Context::getContextByKey("redirto") !== "") {
+                        if (\Utilities\Context::getContextByKey("redirto") !== "") {
                             \Utilities\Site::redirectTo(
                                 \Utilities\Context::getContextByKey("redirto")
                             );
                         } else {
                             \Utilities\Site::redirectTo("index.php");
-                        }*/
+                        }
                     }
                 } else {
                     error_log(

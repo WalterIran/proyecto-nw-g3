@@ -30,7 +30,7 @@ class Register extends PublicController
         $viewData = array(
             "mode_desc" => "",
             "mode" => "",
-            'user' => '',
+            'usercod' => '',
             'useremail' => '',
             'userpswd' => '',
             'username' => '',
@@ -43,6 +43,12 @@ class Register extends PublicController
             'userfecharegistro' => '',
             'usergender' => '',
             "hasErrors" => false,
+            "errorEmail" => '',
+            "errorPswd" => '',
+            "errorPass" => '',
+            "errorUser" => '',
+            "errorPhone" => '',
+            "errorAddress" => '',
             "Errors" => array(),
             "showaction" => true,
             "showactionins" => true,
@@ -52,21 +58,36 @@ class Register extends PublicController
 
         if ($this->isPostBack()) {
             $viewData["mode"] = $_POST["mode"]; //Form behavior mode
-            $viewData['user'] = $_POST['user']; //User code
+            $viewData['usercod'] = $_POST['user']; //User code
             $viewData['useremail'] = $_POST['useremail']; //User Email
             $viewData['userpswd'] = $_POST['userpswd']; //User password
             $viewData['username'] = $_POST['username']; //User Name
             $viewData['userphone'] = $_POST['userphone']; //User Phone
             $viewData['userphone2'] = $_POST['userphone2']; //User Phone
             $viewData['useraddress'] = $_POST['useraddress']; //User Address
-            $viewData['userest'] = $_POST['userest']; //User Status (ACT, INA,...)
-            $viewData['userrole'] = $_POST['userrole']; //User type (PBL, ADM, AUDS)
             $viewData['usergender'] = $_POST['usergender']; //User Gender
             $viewData["userpswdrpt"] = $_POST["userpswdrpt"]; //User password repeat
 
+            if (\Utilities\Validators::IsEmpty($viewData['usercod'])) {
+                $this->errorUser = "¡Debe ingresar un codigo de usuario!";
+                $this->hasError = true;
+            }
+            if (\Utilities\Validators::IsEmpty($viewData['useremail'])) {
+                $this->errorEmail = "¡Debe ingresar un correo!";
+                $this->hasError = true;
+            }
+            if (\Utilities\Validators::IsEmpty($viewData['username'])) {
+                $this->errorEmail = "¡Debe ingresar su nombre!";
+                $this->hasError = true;
+            }
+            if (\Utilities\Validators::IsEmpty($viewData['userphone'])) {
+                $this->errorEmail = "¡Debe ingresar su numero!";
+                $this->hasError = true;
+            }
+
             if ($viewData["userpswdrpt"] != $viewData["userpswd"]) {
                 $viewData["hasErrors"] = true;
-                $viewData["Errors"][] = "Contraseña y repetir contraseña deben ser iguales";
+                $viewData["errorPass"] = 'Constraseña no coincide.';
             }
 
             if (!$viewData["hasErrors"]) {
@@ -75,14 +96,28 @@ class Register extends PublicController
                     case "INS":
                         //echo $viewData["usergender"];
                         //dd($viewData["usergender"]);
-                        if (\Dao\Security\Security::newUsuario($viewData['user'], $viewData['useremail'], $viewData['userpswd'], $viewData['username'], $viewData['userphone'], $viewData['userphone2'], $viewData['useraddress'], $viewData['usergender'])) {
-                            $this->yeah();
+                        $verUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['usercod']);
+                        //dd($verUsuario);
+                        if(!$verUsuario){
+                            if (!$dbUser = \Dao\Security\Security::getUsuarioByEmail($viewData['useremail'])) {
+                                if($dbUser){
+                                    if (\Dao\Security\Security::newUsuario($viewData['usercod'], $viewData['useremail'], $viewData['userpswd'], $viewData['username'], $viewData['userphone'], $viewData['userphone2'], $viewData['useraddress'], $viewData['usergender'])) {
+                                        $this->yeah();
+                                    }
+                                }
+                            }else{
+                                $viewData["hasErrors"] = true;
+                                $viewData["errorEmail"] = "Correo ya esta relacionado a una cuenta.";
+                            }
+                        }else{
+                            $viewData["hasErrors"] = true;
+                            $viewData["errorUser"] = "El usuario ya existe.";
                         }
                         break;
                     case "UPD":
                         if (
                             isset($_POST["chgPswd"]) && \Dao\Mnt\Usuarios::editUsuario(
-                                $viewData['user'],
+                                $viewData['usercod'],
                                 $viewData['useremail'],
                                 $viewData['username'],
                                 $viewData['userpswd'],
@@ -90,24 +125,24 @@ class Register extends PublicController
                                 $viewData['userrole']
                             )
 
-                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['user'], $viewData["userroles"])
+                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['usercod'], $viewData["userroles"])
                         ) {
                             $this->yeah();
                         } else if (
                             \Dao\Mnt\Usuarios::editUsuarioNoPswd(
-                                $viewData['user'],
+                                $viewData['usercod'],
                                 $viewData['useremail'],
                                 $viewData['username'],
                                 $viewData['userest'],
                                 $viewData['userrole']
                             )
-                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['user'], $viewData["userroles"])
+                            //&& \Dao\Mnt\Usuarios::editUserRoles($viewData['usercod'], $viewData["userroles"])
                         ) {
                             $this->yeah();
                         }
                         break;
                     case "DEL":
-                        if (\Dao\Mnt\Usuarios::deleteUsuario($viewData['user'])) {
+                        if (\Dao\Mnt\Usuarios::deleteUsuario($viewData['usercod'])) {
                             $this->yeah();
                         }
                         break;
@@ -119,8 +154,8 @@ class Register extends PublicController
             } else {
                 $this->nope();
             }
-            if (isset($_GET['user'])) {
-                $viewData['user'] = $_GET['user'];
+            if (isset($_GET['usercod'])) {
+                $viewData['usercod'] = $_GET['usercod'];
             } else {
                 if ($viewData["mode"] !== "INS") {
                     dd("No bicho");
@@ -140,31 +175,26 @@ class Register extends PublicController
             $viewData["mode_dsc"] = $modeDscArr["INS"];
             //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = true;
-            $viewData["showactionins"] = false;
         } else {
-            $tmpUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['user']);
-            $tmpUserRoles = \Dao\Security\Security::getRolesByUsuario($viewData["user"]);
+            
+            $viewData["showactionins"] = false;
+            $tmpUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['usercod']);
+            //$tmpUserRoles = \Dao\Security\Security::getRolesByUsuario($viewData["user"]);
 
             $viewData['useremail'] = $tmpUsuario['useremail'];
             $viewData['username'] = $tmpUsuario['username'];
             $viewData['userpswd'] = $tmpUsuario['userpswd'];
+            $viewData['userphone'] = $tmpUsuario['userphone'];
+            $viewData['userphone2'] = $tmpUsuario['userphone2'];
+            $viewData['useraddress'] = $tmpUsuario['useraddress'];
             $viewData['userest'] = $tmpUsuario['userest'];
             $viewData['userrole'] = $tmpUsuario['userrole'];
             //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = false;
 
-            $viewData["userest_ACT"] = $tmpUsuario["userest"] == "ACT" ? "selected" : "";
-            $viewData["userest_INA"] = $tmpUsuario["userest"] == "INA" ? "selected" : "";
-            $viewData["userest_SUS"] = $tmpUsuario["userest"] == "SUS" ? "selected" : "";
-            $viewData["userest_BLQ"] = $tmpUsuario["userest"] == "BLQ" ? "selected" : "";
-
-            $viewData["userrole_PBL"] = $tmpUsuario["userrole"] == "PBL" ? "selected" : "";
-            $viewData["userrole_ADM"] = $tmpUsuario["userrole"] == "ADM" ? "selected" : "";
-            $viewData["userrole_AUD"] = $tmpUsuario["userrole"] == "AUD" ? "selected" : "";
-
             $viewData["mode_dsc"] = sprintf(
                 $modeDscArr[$viewData["mode"]],
-                $viewData['user']
+                $viewData['usercod']
             );
 
             if ($viewData["mode"] == "DSP") {

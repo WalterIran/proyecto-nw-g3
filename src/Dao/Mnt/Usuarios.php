@@ -15,7 +15,7 @@ class Usuarios extends Table
     public static function getOneUsuario($user)
     {
         $sqlStr = "SELECT * FROM usuarios WHERE user = :user;";
-        return self::obtenerUnRegistro($sqlStr, array('user' => intval($user)));
+        return self::obtenerUnRegistro($sqlStr, array('user' => $user));
     }
 
     static public function getRolesNotUser($user)
