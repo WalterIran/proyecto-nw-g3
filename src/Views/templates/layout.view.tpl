@@ -15,7 +15,7 @@
   {{endfor BeginScripts}}
 </head>
 <body>
-  <header class="sticky bg-white flex justify-between flex-wrap lg:flex-nowrap lg:justify-center items-center py-2 lg:px-16 shadow-md lg:h-16">
+  <header class="sticky z-50 top-0 bg-white flex justify-between flex-wrap lg:flex-nowrap lg:justify-center items-center py-2 lg:px-16 shadow-md lg:h-16">
     <div class="lg:w-64">
       <a href="index.php">
         <img class="w-32 lg:w-44 object-contain" src="https://farmaciasdelahorro.hn/logo-principal.png" alt="logo principal">
@@ -35,8 +35,8 @@
       </form>
     </div>
     <div class="px-4 lg:px-0 lg:w-64 flex justify-center space-x-4 lg:space-x-2">
-      <a href="" class="flex relative">
-        <div href="" aria-label="shopping cart">
+      <a href="index.php?page=cart" aria-label="shopping cart" class="flex relative">
+        <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 lg:h-9 lg:w-9 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
@@ -50,9 +50,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
       </button>
-      <div class="hidden lg:flex h-10 space-x-1 text-gray-600">
+      <div class="hidden relative lg:flex h-10 space-x-1 text-gray-600">
         <div class="w-24 text-right align-middle font-medium leading-4 text-lg">
-          Iniciar Sesión
+          Inciar Sesión
         </div>
         <div class="flex">
           <div class="h-9 w-9">
@@ -60,11 +60,30 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <div class="h-9 py-1">
+          <button id="btnOptions" class="h-9 py-1">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
             </svg>
-          </div>
+          </button>
+        </div>
+        <div id="desktop-menu" class="hidden transition-all duration-150 absolute top-full right-0 bg-white shadow-md rounded px-2 w-40 py-2">
+          <ul class="space-y-2">
+            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+              <a href="index.php?page=sec_login">Iniciar Sesión</a>
+            </li>
+            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+              <a href="index.php?page=sec_register&mode=INS">Registrarse</a>
+            </li>
+            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+              <a href="index.php?page=mnt_historial">Mis Pedidos</a>
+            </li>
+            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+              Directorio
+            </li>
+            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150">
+              <a href="index.php?page=sec_logout">Cerrar Sesión</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -93,7 +112,7 @@
               </span>
             </li>
             <li class="">
-              <a href="" class="flex space-x-4 items-center px-4 py-2">
+              <a href="index.php?page=sec_login" class="flex space-x-4 items-center px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -103,7 +122,18 @@
               </a>
             </li>
             <li class="">
-              <a href="" class="flex space-x-4 items-center px-4 py-2">
+              <a href="index.php?page=sec_register&mode=INS" class="flex space-x-4 items-center px-4 py-2">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+                <span class="">
+                  Registrarse
+                </span>
+              </a>
+            </li>
+            <li class="">
+              <a href="index.php?page=mnt_historial" class="flex space-x-4 items-center px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -113,7 +143,7 @@
               </a>
             </li>
             <li class="">
-              <a href="" class="flex space-x-4 items-center px-4 py-2">
+              <a href="index.php?page=sec_logout" class="flex space-x-4 items-center px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -124,7 +154,7 @@
             </li>
             <hr>
             <li class="">
-              <a href="" class="flex space-x-4 items-center px-4 py-2">
+              <a href="index.php" class="flex space-x-4 items-center px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
@@ -165,6 +195,13 @@
       const btnOpenMenu = document.getElementById('open-menu');
       const movilMenu = document.getElementById('movil-menu');
       const btnCloseMenu = document.getElementById('close-menu');
+      const btnOptions = document.getElementById('btnOptions');
+      const desktopMenu = document.getElementById('desktop-menu');
+
+      btnOptions.addEventListener("click", (e) => {
+        e.preventDefault();
+        desktopMenu.classList.toggle('hidden');
+      });
 
       btnOpenMenu.addEventListener("click", (e) => {
         e.preventDefault();
