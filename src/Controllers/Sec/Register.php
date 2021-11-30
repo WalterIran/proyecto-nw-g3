@@ -128,17 +128,17 @@ class Register extends PublicController
                 }
             }
         }
-
+        
         $modeDscArr = array(
             "INS" => "Registro de Usuario",
             "UPD" => "Modificar datos del usuario (%s)",
             "DEL" => "Eliminar usuario (%s)",
             "DSP" => "Detalle del usuario (%s)",
         );
-        $tmpAvailableRoles = \Dao\Mnt\Usuarios::getUsuarios($viewData["user"]);
+        //$tmpAvailableRoles = \Dao\Mnt\Usuarios::getUsuarios($viewData["user"]);
         if ($viewData["mode"] === "INS") {
             $viewData["mode_dsc"] = $modeDscArr["INS"];
-            $viewData["avaroles"] = $tmpAvailableRoles;
+            //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = true;
             $viewData["showactionins"] = false;
         } else {
@@ -150,7 +150,7 @@ class Register extends PublicController
             $viewData['userpswd'] = $tmpUsuario['userpswd'];
             $viewData['userest'] = $tmpUsuario['userest'];
             $viewData['userrole'] = $tmpUsuario['userrole'];
-            $viewData["avaroles"] = $tmpAvailableRoles;
+            //$viewData["avaroles"] = $tmpAvailableRoles;
             $viewData["chgpswd"] = false;
 
             $viewData["userest_ACT"] = $tmpUsuario["userest"] == "ACT" ? "selected" : "";
