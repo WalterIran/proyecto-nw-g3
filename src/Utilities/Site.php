@@ -14,7 +14,9 @@ class Site
     {
         $pageRequest = "index";
         if (\Utilities\Security::isLogged()) {
-            $pageRequest = "admin\\admin";
+            
+        Context::setContext("layoutFile", "privatelayout");
+            //$pageRequest = "admin\\admin";
         }
         if (isset($_GET["page"])) {
             $pageRequest = str_replace(array("_", "-", "."), "\\", $_GET["page"]);

@@ -47,7 +47,7 @@ class Security extends \Dao\Table
         return self::obtenerRegistros($sqlstr, array());
     }
 
-    static public function newUsuario($user, $email, $password, $name, $phone, $phone2, $address, $gender)
+    static public function newUsuario($email, $password, $name, $phone, $phone2, $address, $bio, $gender)
     {
         if (!\Utilities\Validators::IsValidEmail($email)) {
             throw new Exception("Correo no es válido");
@@ -60,18 +60,18 @@ class Security extends \Dao\Table
         //Tratamiento de la Contraseña
         $hashedPassword = self::_hashPassword($password);
 
-        $newUser["user"] = $user;
-        $newUser["useremail"] = $email;
-        $newUser["userpswd"] = $hashedPassword;//(3*30*24*60*60) (m d h mi s)
-        $newUser["username"] = $name;
-        $newUser["userphone"] = $phone;
-        $newUser["userphone2"] = $phone2;
+        $newUser["useremail"]   = $email;
+        $newUser["userpswd"]    = $hashedPassword;//(3*30*24*60*60) (m d h mi s)
+        $newUser["username"]    = $name;
+        $newUser["userphone"]   = $phone;
+        $newUser["userphone2"]  = $phone2;
         $newUser["useraddress"] = $address;
-        $newUser["userest"] = Estados::ACTIVO;
-        $newUser["userrole"] = UsuarioTipo::PUBLICO;
-        $newUser["usergender"] = $gender;
+        $newUser["userbio"]     = $bio;
+        $newUser["userest"]     = Estados::ACTIVO;
+        $newUser["userrole"]    = UsuarioTipo::PUBLICO;
+        $newUser["usergender"]  = $gender;
 
-        $sqlIns = "INSERT INTO usuarios (user, useremail, userpswd, username, userphone, userphone2, useraddress, userest, userrole, usergender) VALUES( :user, :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userest, :userrole, :usergender);";
+        $sqlIns = "INSERT INTO usuarios (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, userrole, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :userrole, :usergender);";
 
         return self::executeNonQuery($sqlIns, $newUser);
 
@@ -111,12 +111,12 @@ class Security extends \Dao\Table
     static private function _usuarioStruct()
     {
         return array(
-            "user"         => "",
             "useremail"    => "",
             "userpswd"     => "",
             "username"     => "",
             "userphone"    => "",
             "useraddress"  => "",
+            "userbio"      => "",
             "userest"      => "",
             "userrole"     => "",
             "usergender"   => "",

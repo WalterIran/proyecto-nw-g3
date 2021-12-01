@@ -14,8 +14,8 @@ class Usuarios extends Table
 
     public static function getOneUsuario($user)
     {
-        $sqlStr = "SELECT * FROM usuarios WHERE user = :user;";
-        return self::obtenerUnRegistro($sqlStr, array('user' => $user));
+        $sqlStr = "SELECT * FROM usuarios WHERE usercod = :user;";
+        return self::obtenerUnRegistro($sqlStr, array('user' => intval($user)));
     }
 
     static public function getRolesNotUser($user)
@@ -70,7 +70,7 @@ class Usuarios extends Table
             username = :username,
             userpswd = :userpswd,
             userrole = :userrole
-            WHERE user = :user;';
+            WHERE usercod = :user;';
         $parametros = array(
             'user' => $user,
             'useremail' => $useremail,
@@ -94,7 +94,7 @@ class Usuarios extends Table
             SET useremail = :useremail,
             username = :username,
             userrole = :userrole
-            WHERE user = :user;';
+            WHERE usercod = :user;';
         $parametros = array(
             'user' => $user,
             'useremail' => $useremail,
@@ -128,7 +128,7 @@ class Usuarios extends Table
 
     public static function deleteUsuario($user)
     {
-        $sqlStr = "DELETE FROM usuario WHERE user = :user;";
+        $sqlStr = "DELETE FROM usuario WHERE usercod = :user;";
         $parametros = array(
             'user' => $user,
         );
