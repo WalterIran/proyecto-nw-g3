@@ -2,7 +2,7 @@
  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <div class="overflow-x-auto">
   <div class="min-w-screen flex items-center justify-center font-sans overflow-hidden">
-    <div class="w-full lg:w-5/6">
+    <div class="w-full">
     <h1 class="text-3xl py-4 border-b mb-10">Gestión de Productos</h1>
     {{if CanInsert}}
           <button class="bg-green-900 hover:bg-green-600 text-white font-bold py-2 px-4 rounded " id="btnAdd">Nuevo</button>
@@ -21,16 +21,16 @@
           </tr>
         </thead>
         <tbody class="text-gray-600 text-sm font-light">
+          {{foreach product}}
           <tr class="border-b border-gray-200 hover:bg-gray-100">
-            {{foreach product}}
             <td class="py-3 px-6 text-left whitespace-nowrap">{{id}}</td>
-                <td class="py-3 px-6 text-left">{{name}}</td>
-                <td class="py-3 px-6 text-center">{{provider}}</td>
-                <td class="py-3 px-6 text-center"><a href="{{img}}" target="_blank">{{img}}</a></td>
-                <td class="py-3 px-6 text-center">{{description}}</td>
-                <td class="py-3 px-6 text-center">{{price}}</td>
+            <td class="py-3 px-6 text-left">{{name}}</td>
+            <td class="py-3 px-6 text-center">{{provider}}</td>
+            <td class="py-3 px-6 text-center"><a href="{{img}}" target="_blank">{{img}}</a></td>
+            <td class="py-3 px-6 text-center">{{description}}</td>
+            <td class="py-3 px-6 text-center">{{price}}</td>
                 <!--Botones de acciones-->
-                <td class="py-3 px-6 text-center">
+            <td class="py-3 px-6 text-center">
                   <div class="flex item-center justify-center">
                     <!--CanView-->
                     <div class="w-4 mr-2 transform hover:text-green-600 hover:scale-110">
