@@ -53,7 +53,7 @@ class Login extends \Controllers\PublicController
                         error_log(
                             sprintf(
                                 "ERROR: %d %s tiene cuenta con estado %s",
-                                $dbUser["user"],
+                                $dbUser["usercod"],
                                 $dbUser["useremail"],
                                 $dbUser["userest"]
                             )
@@ -65,7 +65,7 @@ class Login extends \Controllers\PublicController
                         error_log(
                             sprintf(
                                 "ERROR: %d %s contraseña incorrecta",
-                                $dbUser["user"],
+                                $dbUser["usercod"],
                                 $dbUser["useremail"]
                             )
                         );
@@ -73,11 +73,12 @@ class Login extends \Controllers\PublicController
                     }
                     if (! $this->hasError) {
                         \Utilities\Security::login(
-                            $dbUser["user"],
+                            $dbUser["usercod"],
                             $dbUser["username"],
                             $dbUser["useremail"]
                         );
                         //dd("aqui se hizo login");
+                        $this->yeah();
                         if (\Utilities\Context::getContextByKey("redirto") !== "") {
                             \Utilities\Site::redirectTo(
                                 \Utilities\Context::getContextByKey("redirto")
