@@ -11,24 +11,25 @@
     <section class="depth-1 row col-12 col-m-8 offset-m-2 col-xl-6 offset-xl-3">
       <h1 class="mt-6 text-center text-3xl font-extrabold text-green-600">{{mode_dsc}}</h1>
     </section>
-    <section class="depth-1 py-5 row col-12 col-m-8 offset-m-2 col-xl-6 offset-xl-3">
-        <label class="sr-only" for='user'>Usuario</label>
-        <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Usuario" type="text" {{readonlyuser}} id='user' name='user' value="{{user}}"/>
-        <input class="hidden md:block" type="hidden" id="mode" name="mode" value="{{mode}}">
-        {{if errorUser}}
-          <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorUser}}</div>
-        {{endif errorUser}}
+    <section class="depth-1 row col-12 col-m-8 offset-m-2 col-xl-6 offset-xl-3">
+        <label for='usercod'>Códido de Usuario</label>
+        <input type="hidden" id='usercod' name='usercod' value="{{usercod}}"/>
+        <input type="hidden" id="mode" name="mode" value="{{mode}}">
+        <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Código de Usuario" type="text" readonly name='usercoddummy' value="{{usercod}}"/>
     </section>
     <section>
         <label class="sr-only" for='useremail'>Correo</label>
         <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Correo Electrónico" type="email" {{readonly}} name='useremail' value="{{useremail}}" maxlength="45" placeholder='Correo electrónico'/>
         {{if errorEmail}}
-          <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorEmail}}</div>
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorEmail}}</div>
         {{endif errorEmail}}
     </section>
     <section>
         <label class="sr-only" for='username'>Nombre de usuario</label>
         <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Nombre" type="text" {{readonly}} name='username' value="{{username}}" maxlength="45" placeholder='Nombre de usuario'/>
+        {{if errorName}}
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorName}}</div>
+        {{endif errorName}}
     </section>
     {{ifnot readonly}}<!-- If not DSP mode then show -->
     {{ifnot chgpswd}} <!-- If INS mode hide change password checkbox | Always show password and repeat password -->
@@ -44,14 +45,14 @@
         <label class="sr-only" for='userpswd'>Contraseña</label>
         <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Contraseña" type="password" {{readonly}} name='userpswd' value="" maxlength="45" placeholder='Contraseña'/>
         {{if errorPswd}}
-          <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorPswd}}</div>
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPswd}}</div>
         {{endif errorPswd}}
       </section>
       <section>
         <label class="sr-only" for='userpswdrpt'>Confirmar Contraseña</label>
         <input class="mt-8 appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Confirmar Contraseña" type="password" {{readonly}} name='userpswdrpt' value="" placeholder='Repetir Contraseña'/>
         {{if errorPass}}
-          <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorPass}}</div>
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPass}}</div>
         {{endif errorPass}}
       </section>
     </div>
@@ -60,7 +61,7 @@
         <label class="sr-only" for='userphone'>Número de Teléfono</label>
         <input class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" placeholder="Número de Teléfono" type="number" {{readonly}} name='userphone' value="{{userphone}}" maxlength="8"/>
         {{if errorPhone}}
-          <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorPhone}}</div>
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPhone}}</div>
         {{endif errorPhone}}
     </section>
     <section>
@@ -70,6 +71,13 @@
     <section>
         <label class="sr-only" for='useraddress'>Dirección</label>
         <textarea class="form-textarea mt-1 block w-full appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" style="resize: none;" placeholder="Dirección" type="textarea" rows="3" {{readonly}} name='useraddress' value="{{useraddress}}" maxlength="150" placeholder='Dirección'></textarea>
+        {{if errorAddress}}
+          <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorAddress}}</div>
+        {{endif errorAddress}}
+    </section>
+    <section>
+        <label class="sr-only" for='userbio'>Bio</label>
+        <textarea class="form-textarea mt-1 block w-full appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm bg-gray-200 focus:bg-white" style="resize: none;" placeholder="Bio" type="textarea" rows="3" {{readonly}} name='userbio' value="{{userbio}}" maxlength="150" placeholder='Bio'></textarea>
     </section>
     <section>
         <label for='usergender'>Género<br></label>
