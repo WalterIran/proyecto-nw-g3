@@ -26,101 +26,149 @@ class Cliente extends PublicController
         $viewData = array(
             "mode_dsc"=>"",
             "mode" => "",
-            "clientid" => "",
-            "clientIdnumber" => "",
-            "clientdatecrt" => "",
-            "clientname" => "",
-            "clientstatus" => "",
-            "clientgender" => "",
-            "clientphone1" => "",
-            "clientphone2" => "",
-            "clientemail" => "",
-            "clientbio" => "",
+            "usercod" => "",
+            "userrole" =>"",
+            "userfecharegistro" => "",
+            "username" => "",
+            "userpswd" => "",
+            "userpswdrpt" => "",
+            "userest" => "",
+            "usergender" => "",
+            "useraddress" => "",
+            "userphone" => "",
+            "userphone2" => "",
+            "useremail" => "",
+            "userbio" => "",
             "hasErrors" => false,
+            "errorEmail" => "",
+            "errorPswd" => "",
+            "errorPass" =>  "",
+            "errorName" => "",
+            "errorPhone" => "",
+            "errorAddress" => "",
             "Errors" => array(),
             "showaction"=>true,
             "readonly" => false
         );
         $modeDscArr = array(
-            "INS" => "Nuevo Cliente (%s)",
-            "UPD" => "Editando Cliente  %s",
-            "DEL" => "Eliminando Cliente  %s",
-            "DSP" => "Detalle de Cliente  %s"
+            "INS" => "Nuevo Usuario",
+            "UPD" => "Editando Usuario  %s",
+            "DEL" => "Eliminando Usuario  %s",
+            "DSP" => "Detalle de Usuario  %s"
         );
 
         if ($this->isPostBack()) {
             // se ejecuta al dar click sobre guardar
             $viewData["mode"] = $_POST["mode"];
-            $viewData["clientid"] = $_POST["clientid"] ;
-            $viewData["clientIdnumber"] = $_POST["clientIdnumber"];
-            $viewData["clientdatecrt"] = $_POST["clientdatecrt"];
-            $viewData["clientname"] = $_POST["clientname"] ;
-            $viewData["clientstatus"] = $_POST["clientstatus"];
-            $viewData["clientgender"] = $_POST["clientgender"];
-            $viewData["clientphone1"] = $_POST["clientphone1"] ;
-            $viewData["clientphone2"] = $_POST["clientphone2"];
-            $viewData["clientemail"] = $_POST["clientemail"];
-            $viewData["clientbio"] = $_POST["clientbio"];
+            $viewData["usercod"] = $_POST["usercod"] ;
+            $viewData["userrole"] = $_POST["userrole"];
+            $viewData["username"] = $_POST["username"] ;
+            $viewData["userpswd"] = $_POST["userpswd"];
+            $viewData["userpswdrpt"] = $_POST["userpswdrpt"];
+            $viewData["userest"] = $_POST["userest"];
+            $viewData["usergender"] = $_POST["usergender"] ;
+            $viewData["useraddress"] = $_POST["useraddress"];
+            $viewData["userphone"] = $_POST["userphone"];
+            $viewData["userphone2"] = $_POST["userphone2"];
+            $viewData["useremail"] = $_POST["useremail"];
+            $viewData["userbio"] = $_POST["userbio"];
 
-            $viewData["xsrftoken"] = $_POST["xsrftoken"];
-            // Validate XSRF Token
-            if (!isset($_SESSION["xsrftoken"]) || $viewData["xsrftoken"] != $_SESSION["xsrftoken"]) {
-                $this->nope();
-            }
+            
             // Validaciones de Errores
-            if (\Utilities\Validators::IsEmpty($viewData["clientname"])) {
+            if (!\Utilities\Validators::IsValidEmail($viewData["useremail"])) {
+                $viewData["errorEmail"] = "¡Debe ingresar un correo valido!";
                 $viewData["hasErrors"] = true;
-                $viewData["Errors"][] = "El nombre no Puede Ir Vacio!";
+                $viewData["Errors"][] = '¡Debe ingresar su correo!';
             }
-            if (($viewData["clientstatus"] == "INA"
-                || $viewData["clientstatus"] == "ACT"
-                
-                ) == false
-            ) {
+            if (\Utilities\Validators::IsEmpty($viewData['username'])) {
+                $viewData["errorName"] = "¡Debe ingresar su nombre!";
                 $viewData["hasErrors"] = true;
-                $viewData["Errors"][] = "Estado de Cliente Incorrecto!";
+                $viewData["Errors"][] = '¡Debe ingresar su nombre!';
             }
+            if (\Utilities\Validators::IsEmpty($viewData['userphone'])) {
+                $viewData["errorPhone"] = "¡Debe ingresar su numero!";
+                $viewData["hasErrors"] = true;
+                $viewData["Errors"][] = '¡Debe ingresar su numero!';
+            }
+            if (\Utilities\Validators::IsEmpty($viewData['useraddress'])) {
+                $viewData["errorAddress"] = "¡Debe ingresar su dirección!";
+                $viewData["hasErrors"] = true;
+                $viewData["Errors"][] = '¡Debe ingresar su dirección!';
+            }
+
+            if (!\Utilities\Validators::IsValidPassword($viewData["userpswd"]) && $viewData["mode"] != "DEL") {
+                $viewData["errorPswd"] = "Contraseña debe ser almenos 8 caracteres, 1 número, 1 mayúscula, 1 símbolo especial";
+            }
+            //dd($viewData);
+            if ($viewData["userpswdrpt"] != $viewData["userpswd"]) {
+                $viewData["hasErrors"] = true;
+                $viewData["errorPass"] = 'Constraseña no coincide.';
+                $viewData["Errors"][] = 'Constraseña no coincide.';
+            } 
 
             
             if (!$viewData["hasErrors"]) {
                 switch($viewData["mode"]) {
                 case "INS":
-                    if (\Dao\Mnt\Clientes::crearCliente(
-                        $viewData["clientname"],
-                        $viewData["clientgender"],
-                        $viewData["clientphone1"],
-                        $viewData["clientphone2"],
-                        $viewData["clientemail"],
-                        $viewData["clientIdnumber"],
-                        $viewData["clientbio"],
-                        $viewData["clientstatus"],
-                        $viewData["clientdatecrt"]
-        
-                    )
-                    ) {
-                        $this->yeah();
-                    }
+                    $verUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['usercod']);
+                        
+                        if (!$verUsuario) {
+                            if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($viewData["useremail"])) {
+                                $viewData["errorEmail"] = "El correo ya esta vinculado a otra cuenta.";
+                                $viewData["hasErrors"] = true;
+                                $viewData["Errors"][] = 'Correo invalido';
+                            }
+                            else
+                            {
+                                if (\Dao\Security\Security::newUsuario(
+                                    $viewData['useremail'], 
+                                    $viewData['userpswd'], 
+                                    $viewData['username'], 
+                                    $viewData['userphone'], 
+                                    $viewData['userphone2'], 
+                                    $viewData['useraddress'], 
+                                    $viewData["userbio"], 
+                                    $viewData['usergender'])) {
+                                    $this->yeah();
+                                }
+                                else
+                                {
+                                    
+                                }
+                                
+                            }
+                        } 
+                        else
+                        {
+                            $viewData["hasErrors"] = true;
+                            $viewData["errorUser"] = "El usuario ya existe.";
+                        }
+
+                    
+                    
                     break;
                 case "UPD":
                     if (\Dao\Mnt\Clientes::editarCliente(
-                        $viewData["clientname"],
-                        $viewData["clientgender"],
-                        $viewData["clientphone1"],
-                        $viewData["clientphone2"],
-                        $viewData["clientemail"],
-                        $viewData["clientIdnumber"],
-                        $viewData["clientbio"],
-                        $viewData["clientstatus"],
-                        $viewData["clientdatecrt"],
-                        $viewData["clientid"]
+                        $viewData["username"],
+                        $viewData["usergender"],
+                        $viewData["userphone"],
+                        $viewData["userphone2"],
+                        $viewData["useremail"],
+                        $viewData["useraddress"],
+                        $viewData["userbio"],
+                        $viewData["userest"],
+                        $viewData["userrole"],
+                        $viewData['userpswd'],
+                        $viewData["usercod"],
+                        
                     )
                     ) {
                         $this->yeah();
                     }
                     break;
                 case "DEL":
-                    if (\Dao\Mnt\Categorias::eliminarCategoria(
-                        $viewData["catid"]
+                    if (\Dao\Mnt\Clientes::eliminarCliente(
+                        $viewData["usercod"]
                     )
                     ) {
                         $this->yeah();
@@ -144,8 +192,8 @@ class Cliente extends PublicController
                 $this->nope();
             }
             
-            if (isset($_GET["clientid"])) {
-                $viewData["clientid"] = $_GET["clientid"];
+            if (isset($_GET["usercod"])) {
+                $viewData["usercod"] = $_GET["usercod"];
             } 
             else {
                 if ($viewData["mode"] !=="INS") {
@@ -160,27 +208,34 @@ class Cliente extends PublicController
             $viewData["mode_dsc"]  = $modeDscArr["INS"];
         } else {
             
-            $tmpCliente = \Dao\Mnt\Clientes::obtenerCliente($viewData["clientid"]);
+            $tmpCliente = \Dao\Mnt\Clientes::obtenerCliente($viewData["usercod"]);
             
             //dd($tmpCliente);
-            $viewData["clientname"] = $tmpCliente["clientname"];
-            $viewData["clientIdnumber"] = $tmpCliente["clientIdnumber"];
-            $viewData["clientdatecrt"] = $tmpCliente["clientdatecrt"];
-            $viewData["clientname"] = $tmpCliente["clientname"];
-            $viewData["clientphone1"] = $tmpCliente["clientphone1"];
-            $viewData["clientphone2"] = $tmpCliente["clientphone2"];
-            $viewData["clientemail"] = $tmpCliente["clientemail"];
-            $viewData["clientbio"] = $tmpCliente["clientbio"];
+            $viewData["username"] = $tmpCliente["username"];
+            $viewData["useraddress"] = $tmpCliente["useraddress"];
+            $viewData["userpswd"] = $tmpCliente["userpswd"];
+            $viewData["userphone"] = $tmpCliente["userphone"];
+            $viewData["userphone2"] = $tmpCliente["userphone2"];
+            $viewData["useremail"] = $tmpCliente["useremail"];
+            $viewData["userbio"] = $tmpCliente["userbio"];
             
             
-            $viewData["cliest_ACT"] = $tmpCliente["clientstatus"] == "ACT" ? "selected": "";
-            $viewData["cliest_INA"] = $tmpCliente["clientstatus"] == "INA" ? "selected" : "";
-            $viewData["cligen_MAS"] = $tmpCliente["clientgender"] == "MAS" ? "selected" : "";
-            $viewData["cligen_FEM"] = $tmpCliente["clientgender"] == "FEM" ? "selected" : "";
+            $viewData["userest_ACT"] = $tmpCliente["userest"] == "ACT" ? "selected": "";
+            $viewData["userest_INA"] = $tmpCliente["userest"] == "INA" ? "selected" : "";
+            $viewData["userest_BLQ"] = $tmpCliente["userest"] == "BLQ" ? "selected" : "";
+            $viewData["userest_SUS"] = $tmpCliente["userest"] == "SUS" ? "selected" : "";
 
+            $viewData["userrol_PBL"] = $tmpCliente["userrole"] == "PBL" ? "selected": "";
+            $viewData["userrol_ADMIN"] = $tmpCliente["userrole"] == "ADMIN" ? "selected" : "";
+            $viewData["userrol_AUD"] = $tmpCliente["userrole"] == "AUD" ? "selected" : "";
+
+            $viewData["usergen_MAS"] = $tmpCliente["usergender"] == "M" ? "selected": "";
+            $viewData["usergen_FEM"] = $tmpCliente["usergender"] == "F" ? "selected" : "";
+            
+            
             $viewData["mode_dsc"]  = sprintf(
                 $modeDscArr[$viewData["mode"]],
-                $viewData["clientname"]
+                $viewData["username"]
             );
             if ($viewData["mode"] == "DSP") {
                 $viewData["showaction"]= false ;

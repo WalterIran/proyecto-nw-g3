@@ -1,73 +1,113 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <h1 class ="text-lg font-bold" >{{mode_dsc}}</h1>
 <section>
-  <form action="index.php?page=mnt_cliente&mode={{mode}}&clientid={{clientid}}" method="POST" >
+  <form action="index.php?page=mnt_cliente&mode={{mode}}&clientid={{usercod}}" method="POST" >
     <div class="shadow overflow-hidden sm:rounded-md">
-        <div class="grid grid-cols-6 gap-3">
+        <div class="grid gap-3 grid-cols-5">
 
-            <section class="col-span-2 ">
-                <label class = "label-text" for="clientid">Código</label>
-                <input class="text-input" type="hidden" id="clientid" name="clientid" value="{{clientid}}"/>
+            <section class="col-span-1 ">
+                <label class = "label-text" for="usercod">Código</label>
+                <input class="text-input" type="hidden" id="usercod" name="usercod" value="{{usercod}}"/>
                 <input class="text-input" type="hidden" id="mode" name="mode" value="{{mode}}" />
                 <input class="text-input" type="hidden" id="xsrftoken" name="xsrftoken" value="{{xsrftoken}}" />
-                <input class="text-input" type="text" readonly name="clientidddummy" value="{{clientid}}"/>
+                <input class="text-input" type="text" readonly name="usercoddummy" value="{{usercod}}"/>
             </section>
 
-            <section class="col-span-2 ">
-                <label class = "label-text" for="clientIdnumber">Número Cliente</label>
-                <input class="text-input" type="text" {{readonly}} name="clientIdnumber" value="{{clientIdnumber}}" maxlength="45" placeholder="Numero Cliente"/>
-            </section>
-
-            <section class="col-span-2 ">
-                <label class = "label-text" for="clientdatecrt">Fecha Inscripción</label>
-                <input class="text-input" type="date" {{readonly}} name="clientdatecrt" value="{{clientdatecrt}}" maxlength="45" placeholder="Fecha"/>
-            </section>
+            <section class="col-span-3 ">
+                <label class = "label-text" for="username">Nombre Completo</label>
+                <input class="text-input" type="text" {{readonly}} name="username" value="{{username}}" maxlength="45" placeholder="Nombre de Cliente"/>
+                  {{if errorName}}
+                    <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorName}}</div>
+                  {{endif errorName}}
             
-            <section class="col-span-4 ">
-                <label class = "label-text" for="clientname">Nombre Completo</label>
-                <input class="text-input" type="text" {{readonly}} name="clientname" value="{{clientname}}" maxlength="45" placeholder="Nombre de Cliente"/>
+            </section>
+
+            
+            <section class="col-span-1 ">
+              <label class = "label-text" for="usergender">Género</label>
+              {{if readonly}}
+              <input type="hidden" id="usergenderdummy" name="usergender" value="" />
+              {{endif readonly}}
+              <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="usergender" name="usergender" {{if readonly}}disabled{{endif readonly}}>
+                <option value="M" {{usergen_MAS}}>Masculino</option>
+                <option value="F" {{usergen_FEM}}>Femenino</option>
+              </select>
+            </section>
+
+             <section class="col-span-1 ">
+                <label class = "label-text" for="userphone">Teléfono Principal</label>
+                <input class="text-input" type="text" {{readonly}} name="userphone" value="{{userphone}}" maxlength="45" placeholder="Número de Telefono"/>
+                  {{if errorPhone}}
+                    <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPhone}}</div>
+                  {{endif errorPhone}}
             </section>
 
             <section class="col-span-1 ">
-              <label class = "label-text" for="clientstatus">Status</label>
+                <label class = "label-text" for="userphone2">Teléfono Secundario</label>
+                <input class="text-input" type="text" {{readonly}} name="userphone2" value="{{userphone2}}" maxlength="45" placeholder="Número de Telefono"/>
+            </section>
+
+            <section class="col-span-2 ">
+             <label class = "label-text" for="useraddress">Direccion</label>
+                <textarea class="text-input" {{readonly}} rows="1" name="useraddress" placeholder="Biografía"/> {{useraddress}}</textarea>
+                  {{if errorAddress}}
+                    <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorAddress}}</div>
+                  {{endif errorAddress}}
+            
+            </section>
+
+            <section class="col-span-1 ">
+              <label class = "label-text" for="userrole">Rol</label>
               {{if readonly}}
-              <input type="hidden" id="clientstatusdummy" name="clientstatus" value="" />
+              <input type="hidden" id="userroledummy" name="userrole" value="" />
               {{endif readonly}}
-              <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="clientstatus" name="clientstatus" {{if readonly}}disabled{{endif readonly}}>
-                <option value="ACT" {{cliest_ACT}}>Activo</option>
-                <option value="INA" {{cliest_INA}}>Inactivo</option>
+              <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="userrole" name="userrole" {{if readonly}}disabled{{endif readonly}}>
+                <option value="PBL" {{userrol_PBL}}>Publico</option>
+                <option value="ADMIN" {{userrol_ADMIN}}>Administrador</option>
+                <option value="AUD" {{userrol_AUD}}>Auditor</option>
               </select>
             </section>
 
             <section class="col-span-1 ">
-              <label class = "label-text" for="clientgender">Género</label>
+              <label class = "label-text" for="userest">Status</label>
               {{if readonly}}
-              <input type="hidden" id="clientgenderdummy" name="clientgender" value="" />
+              <input type="hidden" id="userestdummy" name="userest" value="" />
               {{endif readonly}}
-              <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="clientgender" name="clientgender" {{if readonly}}disabled{{endif readonly}}>
-                <option value="MAS" {{cligen_MAS}}>Masculino</option>
-                <option value="FEM" {{cligen_FEM}}>Femenino</option>
+              <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" id="userest" name="userest" {{if readonly}}disabled{{endif readonly}}>
+                <option value="ACT" {{userest_ACT}}>Activo</option>
+                <option value="INA" {{userest_INA}}>Inactivo</option>
+                <option value="BLQ" {{userest_BLQ}}>Bloqueado</option>
+                <option value="SUS" {{userest_SUS}}>Suspendido</option>
               </select>
             </section>
 
-            <section class="col-span-1 ">
-                <label class = "label-text" for="clientphone1">Teléfono Principal</label>
-                <input class="text-input" type="text" {{readonly}} name="clientphone1" value="{{clientphone1}}" maxlength="45" placeholder="Número de Telefono"/>
+            <section class="col-span-2 ">
+             <label class = "label-text" for="useremail">Correo Electrónico</label>
+                <input class="text-input" type="text" {{readonly}} name="useremail" value="{{useremail}}" maxlength="45" placeholder="Correo Cliente"/>
+                  {{if errorEmail}}
+                    <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorEmail}}</div>
+                  {{endif errorEmail}}
             </section>
+            {{if showaction}}
+              <section class="col-span-1">
+                <label class = "label-text" for='userpswd'>Contraseña</label>
+                <input class="text-input" type="password" {{readonly}} name="userpswd" value="" maxlength="45" placeholder='Contraseña'/>
+                {{if errorPswd}}
+                  <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPswd}}</div>
+                {{endif errorPswd}}
+              </section>
 
-            <section class="col-span-1 ">
-                <label class = "label-text" for="clientphone2">Teléfono Secundario</label>
-                <input class="text-input" type="text" {{readonly}} name="clientphone2" value="{{clientphone2}}" maxlength="45" placeholder="Número de Telefono"/>
-            </section>
-
-            <section class="col-span-4 ">
-             <label class = "label-text" for="clientemail">Correo Electrónico</label>
-                <input class="text-input" type="text" {{readonly}} name="clientemail" value="{{clientemail}}" maxlength="45" placeholder="Correo Cliente"/>
-            </section>
-
-            <section class="col-span-4 ">
-             <label class = "label-text" for="clientbio">Perfil</label>
-                <textarea class="text-input"  rows="10" name="clientbio" placeholder="Biografía"/> {{clientbio}}</textarea>
+              <section class="col-span-1">
+                <label class = "label-text" for="userpswdrpt">Confirmar Contraseña</label>
+                <input class="text-input" type="password" {{readonly}} name="userpswdrpt" value="" placeholder='Repetir Contraseña'/>
+                {{if errorPass}}
+                  <div class="text-red-500 error col-12 py-2 col-m-8 offset-m-4">{{errorPass}}</div>
+                {{endif errorPass}}
+              </section>
+            {{endif showaction}}
+            <section class="col-span-3 ">
+             <label class = "label-text" for="userbio">Perfil</label>
+                <textarea class="text-input"  {{readonly}} rows="10" name="userbio" placeholder="Biografía"/> {{userbio}}</textarea>
             </section>
             
         
