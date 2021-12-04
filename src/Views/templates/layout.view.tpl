@@ -52,7 +52,12 @@
       </button>
       <div class="hidden relative lg:flex h-10 space-x-1 text-gray-600">
         <div class="w-24 text-right align-middle font-medium leading-4 text-lg">
-          Inciar Sesión
+          {{with login}}
+            {{userName}}
+            {{ifnot isLogged}}
+              Inciar Sesión
+            {{endifnot isLogged}}
+          {{endwith login}}
         </div>
         <div class="flex">
           <div class="h-9 w-9">
@@ -68,21 +73,29 @@
         </div>
         <div id="desktop-menu" class="hidden transition-all duration-150 absolute top-full right-0 bg-white shadow-md rounded px-2 w-40 py-2">
           <ul class="space-y-2">
-            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
-              <a href="index.php?page=sec_login">Iniciar Sesión</a>
-            </li>
-            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
-              <a href="index.php?page=sec_register&mode=INS">Registrarse</a>
-            </li>
-            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
-              <a href="index.php?page=mnt_historial">Mis Pedidos</a>
-            </li>
-            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
-              Directorio
-            </li>
-            <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150">
-              <a href="index.php?page=sec_logout">Cerrar Sesión</a>
-            </li>
+            {{with login}}
+              {{ifnot isLogged}}
+                <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+                  <a href="index.php?page=sec_login">Iniciar Sesión</a>
+                </li>
+                <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+                  <a href="index.php?page=sec_register&mode=INS">Registrarse</a>
+                </li>
+              {{endifnot isLogged}}
+              <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+                <a href="index.php?page=mnt_historial">Mis Pedidos</a>
+              </li>
+               {{if isLogged}}
+                  {{if isAdmin}}
+                    <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150 border-b border-gray-300">
+                      <a href="index.php?page=admin_admin">Directorio</a>
+                    </li>
+                  {{endif isAdmin}}
+                <li class="cursor-pointer hover:bg-gray-100 transition-all duration-150">
+                  <a href="index.php?page=sec_logout">Cerrar Sesión</a>
+                </li>
+              {{endif isLogged}}
+            {{endwith login}}
           </ul>
         </div>
       </div>
@@ -104,34 +117,37 @@
       <div class="bg-black opacity-50 fixed inset-0"></div>
       <div class="fixed inset-0 flex items-start">
         <div class="w-4/5 h-full bg-white">
+        {{with login}}
           <ul class="w-full text-green-600">
             <li class="bg-green-500 py-4 flex flex-col justify-center items-center space-y-2">
               <img class="w-12 object-contain" src="https://farmaciasdelahorro.hn/logo_header.png" alt="movil welcome">
               <span class="text-white">
-                Bienvenido Walter
+                Bienvenido {{userName}}
               </span>
             </li>
-            <li class="">
-              <a href="index.php?page=sec_login" class="flex space-x-4 items-center px-4 py-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="">
-                  Iniciar Sesión
-                </span>
-              </a>
-            </li>
-            <li class="">
-              <a href="index.php?page=sec_register&mode=INS" class="flex space-x-4 items-center px-4 py-2">
+            {{ifnot isLogged}}
+              <li class="">
+                <a href="index.php?page=sec_login" class="flex space-x-4 items-center px-4 py-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="">
+                    Iniciar Sesión
+                  </span>
+                </a>
+              </li>
+              <li class="">
+                <a href="index.php?page=sec_register&mode=INS" class="flex space-x-4 items-center px-4 py-2">
 
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
-                <span class="">
-                  Registrarse
-                </span>
-              </a>
-            </li>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </svg>
+                  <span class="">
+                    Registrarse
+                  </span>
+                </a>
+              </li>
+            {{endifnot isLogged}}
             <li class="">
               <a href="index.php?page=mnt_historial" class="flex space-x-4 items-center px-4 py-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -142,16 +158,18 @@
                 </span>
               </a>
             </li>
-            <li class="">
-              <a href="index.php?page=sec_logout" class="flex space-x-4 items-center px-4 py-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span class="">
-                  Salir
-                </span>
-              </a>
-            </li>
+            {{if isLogged}}
+              <li class="">
+                <a href="index.php?page=sec_logout" class="flex space-x-4 items-center px-4 py-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <span class="">
+                    Salir
+                  </span>
+                </a>
+              </li>
+            {{endif isLogged}}
             <hr>
             <li class="">
               <a href="index.php" class="flex space-x-4 items-center px-4 py-2">
@@ -163,18 +181,22 @@
                 </span>
               </a>
             </li>
-            <li class="">
-              <a href="" class="flex space-x-4 items-center px-4 py-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                </svg>
-                <span class="">
-                  Directorio
-                </span>
-              </a>
-            </li>
-
+            {{if isLogged}}
+             {{if isAdmin}}
+                <li class="">
+                  <a href="index.php?page=admin_admin" class="flex space-x-4 items-center px-4 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                    <span class="">
+                      Directorio
+                    </span>
+                  </a>
+                </li>
+              {{endif isAdmin}}
+            {{endif isLogged}}
           </ul>
+          {{endwith login}}
         </div>
         <button id="close-menu" type="button" class="flex-1 flex justify-end p-4" aria-label="btn close">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
