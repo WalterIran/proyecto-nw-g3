@@ -83,6 +83,10 @@ class Register extends PublicController
                 $viewData["errorPhone"] = "¡Debe ingresar su numero!";
                 $viewData["hasErrors"] = true;
                 $viewData["Errors"][] = '¡Debe ingresar su numero!';
+            } else if ($viewData['userphone'] > 8) {
+                $viewData["errorPhone"] = "El número contiene mas digitos del formato correcto.";
+                $viewData["hasErrors"] = true;
+                $viewData["Errors"][] = '¡Debe ingresar su numero!';
             }
             if (\Utilities\Validators::IsEmpty($viewData['useraddress'])) {
                 $viewData["errorAddress"] = "¡Debe ingresar su dirección!";

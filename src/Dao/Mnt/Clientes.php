@@ -2,70 +2,92 @@
 namespace Dao\Mnt;
 
 use Dao\Table;
+use Dao\Security;
+use Exception;
 
 class Clientes extends Table
 {
     public static function obtenerClientes()
     {
-        $sqlStr = "SELECT * from clientes;";
+        $sqlStr = "SELECT * from usuarios;";
         return self::obtenerRegistros($sqlStr, array());
     }
 
-    public static function obtenerCliente($clientid)
+    public static function obtenerCliente($usercod)
     {
-        $sqlStr = "SELECT * from clientes where clientid = :clientid;";
-        return self::obtenerUnRegistro($sqlStr, array("clientid"=>intval($clientid)));
+        $sqlStr = "SELECT * from usuarios where usercod = :usercod;";
+        return self::obtenerUnRegistro($sqlStr, array("usercod"=>intval($usercod)));
     }
     
-    public static function crearCliente($clientname, $clientgender, $clientphone1, $clientphone2, $clientemail, $clientIdnumber, $clientbio, $clientstatus, $clientdatecrt )
-    {
-        $sqlstr = "INSERT INTO clientes (clientname, clientgender, clientphone1, clientphone2,clientemail,clientIdnumber,clientbio,clientstatus, clientdatecrt) 
-        values (:clientname, :clientgender, :clientphone1, :clientphone2, :clientemail, :clientIdnumber, :clientbio,:clientstatus, :clientdatecrt);";
-        $parametros = array(
-            "clientname" => $clientname,
-            "clientgender" => $clientgender,
-            "clientphone1" => $clientphone1,
-            "clientphone2" => $clientphone2,
-            "clientemail" => $clientemail,
-            "clientIdnumber" => $clientIdnumber,
-            "clientbio" => $clientbio,
-            "clientstatus" => $clientstatus,
-            "clientdatecrt" => $clientdatecrt
-        );
-        return self::executeNonQuery($sqlstr, $parametros);
-    }
 
-    public static function editarCliente($clientname, $clientgender, $clientphone1, $clientphone2, $clientemail, $clientIdnumber, $clientbio, $clientstatus, $clientdatecrt, $clientid)
+
+    public static function editarCliente($username, $usergender, $userphone, $userphone2, $useremail, $useraddress, $userbio, $userest, $userrole, $userpswd, $usercod)
     {
-        $sqlstr = "UPDATE clientes set clientname=:clientname, clientgender=:clientgender, 
-        clientphone1=:clientphone1, clientphone2=:clientphone2,
-        clientemail=:clientemail, clientIdnumber=:clientIdnumber,
-        clientbio=:clientbio, clientstatus=:clientstatus,
-        clientdatecrt=:clientdatecrt where clientid = :clientid;";
+
+        $hashedPassword = self::_hashPassword($userpswd);
+
+        $sqlstr = "UPDATE usuarios set username=:username, usergender=:usergender, 
+        userphone=:userphone, userphone2=:userphone2,
+        useremail=:useremail, useraddress=:useraddress,
+        userbio=:userbio, userest=:userest,
+        userrole=:userrole, userpswd=:userpswd 
+        where usercod = :usercod;";
         $parametros = array(
-            "clientname" =>  $clientname,
-            "clientgender" =>  $clientgender,
-            "clientphone1" =>  $clientphone1,
-            "clientphone2" =>  $clientphone2,
-            "clientemail" =>  $clientemail,
-            "clientIdnumber" =>  $clientIdnumber,
-            "clientbio" =>  $clientbio,
-            "clientstatus" =>  $clientstatus,
-            "clientdatecrt" =>  $clientdatecrt,
-            "clientid" => intval($clientid)
+            "username" => $username,
+            "usergender" => $usergender,
+            "userphone" => $userphone,
+            "userphone2" => $userphone2,
+            "useremail" => $useremail,
+            "useraddress" => $useraddress,
+            "userbio" => $userbio,
+            "userest" => $userest,
+            "userrole" => $userrole,
+            "userpswd" => $hashedPassword,
+            "usercod" => intval($usercod)
         );
+
+        //dd($parametros);
         return self::executeNonQuery($sqlstr, $parametros);
         // sqlstr = "UPDATE X SET Y = '".$Y."' where Z='".$Z."';";
         // $Y = "'; DROP DATABASE mysql; SELECT * FROM (SELECT DATE)
     }
 
-    public static function eliminarCategoria($catid)
+    public static function eliminarCliente($usercod)
     {
-        $sqlstr = "DELETE FROM categorias where catid=:catid;";
+        try{
+
+        
+        $sqlstr = "DELETE FROM roles_usuarios where usercod=:usercod;";
         $parametros = array(
-            "catid" => intval($catid)
+            "usercod" => intval($usercod)
+        );
+
+        self::executeNonQuery($sqlstr, $parametros);
+        }
+        catch(Exception $ex)
+        {
+
+        }
+        
+        $sqlstr = "DELETE FROM usuarios where usercod=:usercod;";
+        $parametros = array(
+            "usercod" => intval($usercod)
         );
         return self::executeNonQuery($sqlstr, $parametros);
+    }
+
+    static private function _saltPassword($password)
+    {
+        return hash_hmac(
+            "sha256",
+            $password,
+            \Utilities\Context::getContextByKey("PWD_HASH")
+        );
+    }
+
+    static private function _hashPassword($password)
+    {
+        return password_hash(self::_saltPassword($password), PASSWORD_ALGORITHM);
     }
 }
 

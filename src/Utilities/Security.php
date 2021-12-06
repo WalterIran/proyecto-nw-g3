@@ -17,11 +17,16 @@ class Security {
     }
     public static function login($userId, $userName, $userEmail)
     {
+
+        $verify = self::isInRol($userId, 2);
+
         $_SESSION["login"] = array(
             "isLogged" => true,
             "userId" => $userId,
             "userName" => $userName,
-            "userEmail" => $userEmail
+            "userEmail" => $userEmail,
+            "isAdmin" => $verify,
+            "private" => false
         );
     }
     public static function isLogged():bool
