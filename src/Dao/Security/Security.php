@@ -68,10 +68,9 @@ class Security extends \Dao\Table
         $newUser["useraddress"] = $address;
         $newUser["userbio"]     = $bio;
         $newUser["userest"]     = Estados::ACTIVO;
-        $newUser["userrole"]    = UsuarioTipo::PUBLICO;
         $newUser["usergender"]  = $gender;
 
-        $sqlIns = "INSERT INTO usuario (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, userrole, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :userrole, :usergender);";
+        $sqlIns = "INSERT INTO usuario (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :usergender);";
 
         return self::executeNonQuery($sqlIns, $newUser);
 
@@ -118,7 +117,6 @@ class Security extends \Dao\Table
             "useraddress"  => "",
             "userbio"      => "",
             "userest"      => "",
-            "userrole"     => "",
             "usergender"   => "",
         );
     }
