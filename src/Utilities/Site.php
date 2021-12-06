@@ -15,11 +15,25 @@ class Site
         $pageRequest = "index";
         if (\Utilities\Security::isLogged()) {
             
-        Context::setContext("layoutFile", "privatelayout");
+        Context::setContext("layoutFile", "layout");
             //$pageRequest = "admin\\admin";
         }
         if (isset($_GET["page"])) {
             $pageRequest = str_replace(array("_", "-", "."), "\\", $_GET["page"]);
+        }
+        //dd($pageRequest);
+        if($pageRequest == "admin\admin"){
+            $_SESSION["login"]["private"] = true;
+            if (\Utilities\Security::isLogged()){
+                $layoutFile = \Utilities\Context::getContextByKey("PRIVATE_LAYOUT");
+                if ($layoutFile !== "") {
+                    \Utilities\Context::setContext(
+                        "layoutFile",
+                        $layoutFile
+                    );
+                    \Utilities\Nav::setNavContext();
+                }
+            }
         }
         Context::setArrayToContext($_GET);
         Context::setContext("request_uri", $_SERVER["REQUEST_URI"]);

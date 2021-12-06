@@ -33,11 +33,11 @@ class Security extends \Dao\Table
         } else {
             //TODO: Terminar consultas FACET
             if ($page = -1 and $items = 0) {
-                $sqlstr = sprintf("SELECT * FROM usuarios %s;", $filter);
+                $sqlstr = sprintf("SELECT * FROM usuario %s;", $filter);
             } else {
                 $offset = ($page -1 * $items);
                 $sqlstr = sprintf(
-                    "SELECT * FROM usuarios %s limit %d, %d;",
+                    "SELECT * FROM usuario %s limit %d, %d;",
                     $filter,
                     $offset,
                     $items
@@ -71,7 +71,7 @@ class Security extends \Dao\Table
         $newUser["userrole"]    = UsuarioTipo::PUBLICO;
         $newUser["usergender"]  = $gender;
 
-        $sqlIns = "INSERT INTO usuarios (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, userrole, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :userrole, :usergender);";
+        $sqlIns = "INSERT INTO usuario (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, userrole, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :userrole, :usergender);";
 
         return self::executeNonQuery($sqlIns, $newUser);
 
@@ -79,7 +79,7 @@ class Security extends \Dao\Table
 
     static public function getUsuarioByEmail($email)
     {
-        $sqlstr = "SELECT * from usuarios where useremail = :useremail ;";
+        $sqlstr = "SELECT * from usuario where useremail = :useremail ;";
         $params = array("useremail"=>$email);
 
         return self::obtenerUnRegistro($sqlstr, $params);
