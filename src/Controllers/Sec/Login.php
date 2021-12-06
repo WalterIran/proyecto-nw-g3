@@ -48,7 +48,7 @@ class Login extends \Controllers\PublicController
 
                 if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($this->txtEmail)) {
                     if ($dbUser["userest"] != \Dao\Security\Estados::ACTIVO) {
-                        $this->generalError = "¡Credenciales son incorrectas!";
+                        $this->generalError = "¡Usuario no esta activo!";
                         $this->hasError = true;
                         error_log(
                             sprintf(
@@ -94,7 +94,7 @@ class Login extends \Controllers\PublicController
                             $this->txtEmail
                         )
                     );
-                    $this->generalError = "¡Credenciales son incorrectas!";
+                    $this->generalError = "¡Ocurruio un error al ingresar!";
                 }
             }
         }

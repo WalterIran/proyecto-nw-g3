@@ -8,13 +8,13 @@ class Usuarios extends Table
 {
     public static function getUsuarios()
     {
-        $sqlStr = "SELECT * FROM usuarios;";
+        $sqlStr = "SELECT * FROM usuario;";
         return self::obtenerRegistros($sqlStr, array());
     }
 
     public static function getOneUsuario($user)
     {
-        $sqlStr = "SELECT * FROM usuarios WHERE usercod = :user;";
+        $sqlStr = "SELECT * FROM usuario WHERE usercod = :user;";
         return self::obtenerUnRegistro($sqlStr, array('user' => intval($user)));
     }
 
@@ -65,7 +65,7 @@ class Usuarios extends Table
         $userrole,
         $userest
     ) {
-        $sqlStr = 'UPDATE usuarios
+        $sqlStr = 'UPDATE usuario
             SET useremail = :useremail,
             username = :username,
             userpswd = :userpswd,
