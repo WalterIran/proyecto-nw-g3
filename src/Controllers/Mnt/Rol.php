@@ -20,6 +20,7 @@ class Rol extends PublicController{
 
     public function run(): void
     {
+        
         $viewData = array(
             "mode_dsc" => "",
             "rolescod" => "",

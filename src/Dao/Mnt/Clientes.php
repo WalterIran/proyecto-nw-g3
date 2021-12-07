@@ -30,9 +30,17 @@ class Clientes extends Table
 
     public static function editarCliente($username, $usergender, $userphone, $userphone2, $useremail, $useraddress, $userbio, $userest, $userrole, $userpswd, $usercod)
     {
-       
+       //Actualizando Tabla de Rol_Usuario 
+       $sqlstr = "UPDATE roles_usuarios set rolescod=:userrole where usercod = :usercod;";
+       $parametros = array(
+           "userrole" => $userrole,
+           "usercod" => intval($usercod)
+        );
+
+        
+       self::executeNonQuery($sqlstr, $parametros);
+
         $hashedPassword = self::_hashPassword($userpswd);
-        //dd("ss");
         $sqlstr = "UPDATE usuario set username=:username, usergender=:usergender, 
         userphone=:userphone, userphone2=:userphone2,
         useremail=:useremail, useraddress=:useraddress,
