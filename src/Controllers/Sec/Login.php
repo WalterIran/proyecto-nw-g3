@@ -75,7 +75,8 @@ class Login extends \Controllers\PublicController
                         \Utilities\Security::login(
                             $dbUser["usercod"],
                             $dbUser["username"],
-                            $dbUser["useremail"]
+                            $dbUser["useremail"],
+                            $dbUser["userrole"]
                         );
                         //dd("aqui se hizo login");
                         $this->yeah();

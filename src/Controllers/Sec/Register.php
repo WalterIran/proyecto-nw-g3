@@ -118,7 +118,11 @@ class Register extends PublicController
                                 $viewData["Errors"][] = 'Correo invalido';
                             }else{
                                 if (\Dao\Security\Security::newUsuario($viewData['useremail'], $viewData['userpswd'], $viewData['username'], $viewData['userphone'], $viewData['userphone2'], $viewData['useraddress'], $viewData["userbio"], $viewData['usergender'])) {
-                                    $this->yeah();
+                                    if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($viewData["useremail"])) {
+                                        if(\Dao\Security\Security::newUsuarioRol($dbUser["usercod"])){
+                                            $this->yeah();
+                                        }
+                                    }
                                 }
                             }
 
