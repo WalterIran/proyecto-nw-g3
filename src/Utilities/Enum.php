@@ -9,7 +9,7 @@ abstract class Enum
     {
         throw new NotSupportedException(); // 
     }
-    final private function __clone()
+    private function __clone()
     {
         throw new NotSupportedException();
     }
