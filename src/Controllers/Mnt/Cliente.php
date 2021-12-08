@@ -58,6 +58,7 @@ class Cliente extends PublicController
         );
 
         if ($this->isPostBack()) {
+            
             // se ejecuta al dar click sobre guardar
             $viewData["mode"] = $_POST["mode"];
             $viewData["usercod"] = $_POST["usercod"] ;
@@ -72,7 +73,7 @@ class Cliente extends PublicController
             $viewData["userphone2"] = $_POST["userphone2"];
             $viewData["useremail"] = $_POST["useremail"];
             $viewData["userbio"] = $_POST["userbio"];
-
+            
             
             // Validaciones de Errores
             if (!\Utilities\Validators::IsValidEmail($viewData["useremail"])) {
@@ -106,7 +107,7 @@ class Cliente extends PublicController
                 $viewData["Errors"][] = 'Constraseña no coincide.';
             } 
 
-            
+            //dd("SIN ERRORES");
             if (!$viewData["hasErrors"]) {
                 switch($viewData["mode"]) {
                 case "INS":
@@ -148,6 +149,8 @@ class Cliente extends PublicController
                     
                     break;
                 case "UPD":
+
+                    //dd($viewData);
                     if (\Dao\Mnt\Clientes::editarCliente(
                         $viewData["username"],
                         $viewData["usergender"],
@@ -163,8 +166,12 @@ class Cliente extends PublicController
                         
                     )
                     ) {
+                        //dd("AQUI BIEN");
                         $this->yeah();
                     }
+                    else{
+                        dd("ERROR ELSE");
+                    } 
                     break;
                 case "DEL":
                     if (\Dao\Mnt\Clientes::eliminarCliente(

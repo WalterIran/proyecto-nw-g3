@@ -7,6 +7,7 @@ use Controllers\PrivateController;
 class Features extends PrivateController{
     public function run():void
     {
+        \Utilities\Site::addLink("public/css/clientes.css");
         $viewData = array();
         $viewData["Funciones"] = \Dao\Mnt\Features::getFeatures();
         $viewData["CanInsert"] = self::isFeatureAutorized("Controllers\Mnt\Feature\New");

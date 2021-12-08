@@ -7,6 +7,7 @@ use Views\Renderer;
 class Roles extends PublicController{
     public function run(): void
     {
+        \Utilities\Site::addLink("public/css/clientes.css");
         $viewData = array();
         $viewData["items"] = \Dao\Mnt\Roles::getRoles();
         $viewData["new_enabled"] = true;

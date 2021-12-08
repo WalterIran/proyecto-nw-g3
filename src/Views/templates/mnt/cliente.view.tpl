@@ -1,7 +1,7 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <h1 class ="text-lg font-bold" >{{mode_dsc}}</h1>
 <section>
-  <form action="index.php?page=mnt_cliente&mode={{mode}}&clientid={{usercod}}" method="POST" >
+  <form action="index.php?page=mnt_cliente&mode={{mode}}&usercod={{usercod}}" method="POST" >
     <div class="shadow overflow-hidden sm:rounded-md">
         <div class="grid gap-3 grid-cols-5">
 

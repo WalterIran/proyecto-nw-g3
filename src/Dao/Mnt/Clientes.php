@@ -5,17 +5,24 @@ use Dao\Table;
 use Dao\Security;
 use Exception;
 
+//Se pone esto, porque el Dao/Security ya lo tiene definido y está la funcion private por lo que no se tiene acceso fuera de 
+if (version_compare(phpversion(), '7.4.0', '<')) {
+    define('PASSWORD_ALGORITHMv2', 1);  //BCRYPT
+} else {
+define('PASSWORD_ALGORITHMv2', '2y');  //BCRYPT
+}
+
 class Clientes extends Table
 {
     public static function obtenerClientes()
     {
-        $sqlStr = "SELECT * from usuarios;";
+        $sqlStr = "SELECT * from usuario;";
         return self::obtenerRegistros($sqlStr, array());
     }
 
     public static function obtenerCliente($usercod)
     {
-        $sqlStr = "SELECT * from usuarios where usercod = :usercod;";
+        $sqlStr = "SELECT * from usuario where usercod = :usercod;";
         return self::obtenerUnRegistro($sqlStr, array("usercod"=>intval($usercod)));
     }
     
@@ -23,15 +30,24 @@ class Clientes extends Table
 
     public static function editarCliente($username, $usergender, $userphone, $userphone2, $useremail, $useraddress, $userbio, $userest, $userrole, $userpswd, $usercod)
     {
+       //Actualizando Tabla de Rol_Usuario 
+       $sqlstr = "UPDATE roles_usuarios set rolescod=:userrole where usercod = :usercod;";
+       $parametros = array(
+           "userrole" => $userrole,
+           "usercod" => intval($usercod)
+        );
+
+        
+       self::executeNonQuery($sqlstr, $parametros);
 
         $hashedPassword = self::_hashPassword($userpswd);
-
-        $sqlstr = "UPDATE usuarios set username=:username, usergender=:usergender, 
+        $sqlstr = "UPDATE usuario set username=:username, usergender=:usergender, 
         userphone=:userphone, userphone2=:userphone2,
         useremail=:useremail, useraddress=:useraddress,
         userbio=:userbio, userest=:userest,
         userrole=:userrole, userpswd=:userpswd 
         where usercod = :usercod;";
+        
         $parametros = array(
             "username" => $username,
             "usergender" => $usergender,
@@ -69,7 +85,7 @@ class Clientes extends Table
 
         }
         
-        $sqlstr = "DELETE FROM usuarios where usercod=:usercod;";
+        $sqlstr = "DELETE FROM usuario where usercod=:usercod;";
         $parametros = array(
             "usercod" => intval($usercod)
         );
@@ -87,7 +103,8 @@ class Clientes extends Table
 
     static private function _hashPassword($password)
     {
-        return password_hash(self::_saltPassword($password), PASSWORD_ALGORITHM);
+        
+        return password_hash(self::_saltPassword($password), PASSWORD_ALGORITHMv2);
     }
 }
 
