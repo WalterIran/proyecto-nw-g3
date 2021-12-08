@@ -67,27 +67,45 @@ class Product extends Table{
         return self::executeNonQuery($sqlStr, $parametros);
     }
 
+    public static function getAvailableStock($prdId){
+        $sqlStr = "SELECT ((SELECT prdStock FROM products WHERE id = :prdId) - ((SELECT IFNULL((SELECT SUM(cant) FROM cart WHERE prdId = :prdId),0)) + (SELECT IFNULL((SELECT SUM(cant) FROM tmp_cart WHERE prdId = :prdId),0)))) as available; ";
+        
+        $parametros = array(
+            'prdId' => $prdId
+        );
+
+        return self::obtenerUnRegistro($sqlStr, $parametros);
+    }
+
     public static function updatePrdCart($table, $uid, $prdId, $operation){
 
         $identifier = self::getUserIdLabel($table);
+
+        if($table == 'cart'){
+            $otherTable = 'tmp_cart';
+        }else{
+            $otherTable = 'cart';
+        }
+
+        $validationQuery = "IF(((SELECT prdStock FROM products WHERE id = :prdId) - (cant + (SELECT IFNULL((SELECT SUM(cant) FROM $otherTable WHERE prdId = :prdId), 0))) > 0), true, false)";
 
         if($operation == 'SUM'){
             $sqlStr = "UPDATE $table
             SET 
             cant = cant + 1
-            WHERE $identifier = :uid AND prdId = :prdId";
+            WHERE $identifier = :uid AND prdId = :prdId AND $validationQuery;";
         }else if($operation == 'SUB'){
             $sqlStr = "UPDATE $table 
             SET 
             cant = cant - 1
-            WHERE $identifier = :uid AND prdId = :prdId";
+            WHERE $identifier = :uid AND prdId = :prdId AND cant > 1";
         }
 
         $parametros = array(
             "uid" => $uid,
             "prdId" => $prdId
         );
-
+        
         return self::executeNonQuery($sqlStr, $parametros);
     }
 

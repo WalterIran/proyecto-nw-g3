@@ -8,15 +8,23 @@ use Views\Renderer;
 
 class Product extends PublicController
 {
-    private function nope()
+    private function nopeWithMsg($message, $prdId)
     {
-        Site::redirectToWithMsg("index.php?page=products", "Ocurrio algo inesperado. Intente nuevamente");
+        \Utilities\Site::redirectToWithMsg(
+            "index.php?page=product&id=$prdId&mode=DSP",
+            $message
+        );
+    }
+
+    private function nope(){
+        \Utilities\Site::redirectTo("index.php");
     }
 
     private function yeah($message)
     {
         Site::redirectToWithMsg("index.php?page=cart", $message);
     }
+
     public function run(): void
     {
         $viewData = array(
@@ -29,7 +37,6 @@ class Product extends PublicController
             "price" => "",
             "showaction" => true,
         );
-
 
         $modeDscArr = array(
             "INS" => "",
@@ -45,8 +52,13 @@ class Product extends PublicController
                 $table = "tmp_cart";
                 $user = $_SESSION['tmpuserid'];
             }
-            if (\Dao\Mnt\Product::addToCart($table, $user, $_POST['prdId'], $_POST['price'])) {
-                $this->yeah("Producto agregado éxitosamente.");
+            $available = \Dao\Mnt\Product::getAvailableStock($_POST['prdId']);
+            if($available['available'] > 0){
+                if (\Dao\Mnt\Product::addToCart($table, $user, $_POST['prdId'], $_POST['price'])) {
+                    $this->yeah("Producto agregado éxitosamente.");
+                }
+            }else{
+                $this->nopeWithMsg("Producto agotado", $_POST['prdId']);
             }
         } else {
             if (isset($_GET["mode"])) {

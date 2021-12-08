@@ -27,8 +27,9 @@
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="">
-                            <form action="index.php?page=cart" method="post" class="flex space-x-2">
+                            <form id="form-add-sub" action="index.php?page=cart" method="post" class="flex space-x-2">
                                 <input type="hidden" name="id" id="id" value="{{id}}">
+                                <input type="hidden" name="cant" id="cant" value="{{cant}}">
                                 <div class="border border-gray-500 p-2">
                                     x {{cant}}
                                 </div>

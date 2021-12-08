@@ -6,6 +6,14 @@ use Controllers\PublicController;
 
 class Cart extends PublicController
 {
+    private function nope($message)
+    {
+        \Utilities\Site::redirectToWithMsg(
+            "index.php?page=cart",
+            $message
+        );
+    }
+
     public function run():void{
         $viewData = array();
         
@@ -20,9 +28,18 @@ class Cart extends PublicController
         if($this->isPostBack()){
             
             if(isset($_POST['btnAdd'])){
-                \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUM');
+                $available = \Dao\Mnt\Product::getAvailableStock($_POST['id']);
+                if($available['available'] > 0){
+                    \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUM');
+                }else{
+                    $this->nope("No hay más de este producto, producto agotado");
+                }
             }else if(isset($_POST['btnSubtract'])){
-                \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUB');
+                if($_POST['cant'] > 1){
+                    \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUB');
+                }else{
+                    $this->nope("No se puede dejar la cantidad en 0, prueba a eliminar el producto de tu carrito");
+                }
             }else if(isset($_POST['btnDelete'])){
                 \Dao\Mnt\Product::deletePrdCart($table, $user, $_POST['id']);
             }
