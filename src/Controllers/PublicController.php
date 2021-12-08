@@ -34,6 +34,15 @@ abstract class PublicController implements IController
             $user = $_SESSION['login']['userId'];
             $table = 'cart';
         }else{
+            $_SESSION["login"] = array(
+                "isLogged" => false,
+                "userId" => null,
+                "userName" => null,
+                "userEmail" => null,
+                "isAdmin" => false,
+                "private" => false
+            );
+            
             if(!isset($_SESSION['tmpuserid'])){
                 $_SESSION['tmpuserid'] = bin2hex(random_bytes(15));;
             }
