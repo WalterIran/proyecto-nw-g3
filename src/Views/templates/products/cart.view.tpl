@@ -1,4 +1,4 @@
-<!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+
 <section style="min-height: calc(100vh - 120px - 32px);" class="w-full my-auto flex justify-center items-center">
     <div style="min-height: calc(100vh - 120px - 64px);" class="w-4/5 bg-white shadow-md flex flex-col">
         <div class="bg-green-800 w-full h-16 flex justify-between items-center px-8">
@@ -73,7 +73,7 @@
                     </button>
                 </div>
                 <div class="">
-                    <a href="" class="flex justify-between items-center text-white bg-green-500 font-bold w-full h-10 rounded-3xl px-4 transform transition-all duration-150 hover:scale-105">
+                    <a href="index.php?page=checkout_checkout&id={{with login}}{{userId}}{{endwith login}}" class="flex justify-between items-center text-white bg-green-500 font-bold w-full h-10 rounded-3xl px-4 transform transition-all duration-150 hover:scale-105">
                         <span class="flex-auto text-center">CONTINUAR</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
