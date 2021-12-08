@@ -9,6 +9,18 @@ class Products extends Table{
         return self::obtenerRegistros($sqlStr, array());
     }
 
+    public static function searchProducts($text ){
+        $text = substr_replace($text, '%', 0,0);
+        $text = substr_replace($text, '%', strlen($text), 0);
+
+        $sqlStr = "SELECT * FROM products WHERE name LIKE :text OR description LIKE :text;";
+        $parametros = array(
+            "text" => $text
+        );
+        
+        return self::obtenerRegistros($sqlStr, $parametros);
+    }
+
     //C - Create
     public static function createProduct($name, $provider, $img, $description, $price){
         $sqlStr = "INSERT INTO products (

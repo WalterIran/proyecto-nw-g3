@@ -83,7 +83,7 @@ class Register extends PublicController
                 $viewData["errorPhone"] = "¡Debe ingresar su numero!";
                 $viewData["hasErrors"] = true;
                 $viewData["Errors"][] = '¡Debe ingresar su numero!';
-            } else if ($viewData['userphone'] > 8) {
+            } else if (strlen($viewData['userphone']) > 8) {
                 $viewData["errorPhone"] = "El número contiene mas digitos del formato correcto.";
                 $viewData["hasErrors"] = true;
                 $viewData["Errors"][] = '¡Debe ingresar su numero!';
@@ -110,22 +110,22 @@ class Register extends PublicController
                     case "INS":
                         //echo $viewData["usergender"];
                         //dd($viewData["usergender"]);
-                        $verUsuario = \Dao\Mnt\Usuarios::getOneUsuario($viewData['usercod']);
                         //dd($verUsuario);
-                        if (!$verUsuario) {
+
                             if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($viewData["useremail"])) {
                                 $viewData["errorEmail"] = "El correo ya esta vinculado a otra cuenta.";
                                 $viewData["hasErrors"] = true;
                                 $viewData["Errors"][] = 'Correo invalido';
                             }else{
                                 if (\Dao\Security\Security::newUsuario($viewData['useremail'], $viewData['userpswd'], $viewData['username'], $viewData['userphone'], $viewData['userphone2'], $viewData['useraddress'], $viewData["userbio"], $viewData['usergender'])) {
-                                    $this->yeah();
+                                    if ($dbUser = \Dao\Security\Security::getUsuarioByEmail($viewData["useremail"])) {
+                                        if(\Dao\Security\Security::newUsuarioRol($dbUser["usercod"])){
+                                            $this->yeah();
+                                        }
+                                    }
                                 }
                             }
-                        } else {
-                            $viewData["hasErrors"] = true;
-                            $viewData["errorUser"] = "El usuario ya existe.";
-                        }
+
                         break;
                     case "UPD":
                         if (

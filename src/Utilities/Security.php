@@ -15,17 +15,19 @@ class Security {
     {
         unset($_SESSION["login"]);
     }
-    public static function login($userId, $userName, $userEmail)
+    public static function login($userId, $userName, $userEmail, $userRole)
     {
-
-        $verify = self::isInRol($userId, 2);
+        $isAdmin = true;
+        if($userRole == \Dao\Security\UsuarioTipo::PUBLICO){
+            $isAdmin = false;
+        }
 
         $_SESSION["login"] = array(
             "isLogged" => true,
             "userId" => $userId,
             "userName" => $userName,
             "userEmail" => $userEmail,
-            "isAdmin" => $verify,
+            "isAdmin" => $isAdmin,
             "private" => false
         );
     }
