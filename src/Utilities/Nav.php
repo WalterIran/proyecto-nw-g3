@@ -7,19 +7,6 @@ class Nav {
     public static function setNavContext(){
         $tmpNAVIGATION = array();
         $userID = \Utilities\Security::getUserId();
-        if (\Utilities\Security::isAuthorized($userID, "MntUsuarios")) {
-            $tmpNAVIGATION[] = array(
-                "nav_url" => "index.php?page=mnt_usuarios",
-                "nav_label" => "Usuarios"
-            );
-        }
-        if (\Utilities\Security::isAuthorized($userID, "WW_Scores")) {
-            $tmpNAVIGATION[] = array(
-                "nav_url" => "index.php?page=scores_scores",
-                "nav_label" => "Partituras"
-            );
-        }
-
         if (\Utilities\Security::isAuthorized($userID, "WW_Clientes")) {
             $tmpNAVIGATION[] = array(
                 "nav_url" => "index.php?page=mnt_clientes",
@@ -31,6 +18,20 @@ class Nav {
             $tmpNAVIGATION[] = array(
                 "nav_url" => "index.php?page=mnt_products",
                 "nav_label" => "Productos"
+            );
+        }
+
+        if (\Utilities\Security::isAuthorized($userID, "WW_Roles")) {
+            $tmpNAVIGATION[] = array(
+                "nav_url" => "index.php?page=mnt_roles",
+                "nav_label" => "Roles"
+            );
+        }
+
+        if (\Utilities\Security::isAuthorized($userID, "WW_Features")) {
+            $tmpNAVIGATION[] = array(
+                "nav_url" => "index.php?page=mnt_features",
+                "nav_label" => "Funciones"
             );
         }
        
