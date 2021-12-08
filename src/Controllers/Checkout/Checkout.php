@@ -31,10 +31,12 @@ class Checkout extends PublicController{
 
         if ($this->isPostBack()) {
             
+            $basedir = \Utilities\Context::getContextByKey("BASE_DIR");
+            
             $PayPalOrder = new \Utilities\Paypal\PayPalOrder(
                 "test".(time() - 10000000),
-                "http://localhost/NegociosWeb/3_Tercer_Parcial/proyecto-nw-g3/index.php?page=checkout_error",
-                "http://localhost/NegociosWeb/3_Tercer_Parcial/proyecto-nw-g3/index.php?page=checkout_accept"
+                "http://localhost/$basedir/index.php?page=checkout_error",
+                "http://localhost/$basedir/index.php?page=checkout_accept"
             );
             foreach($items as $item){
                 $PayPalOrder->addItem($item['name'], $item['dsc'], $item['prdId'], doubleval($item['price']), 15, intval($item['cant']), "DIGITAL_GOODS");
