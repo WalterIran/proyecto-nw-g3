@@ -68,11 +68,31 @@ class Security extends \Dao\Table
         $newUser["useraddress"] = $address;
         $newUser["userbio"]     = $bio;
         $newUser["userest"]     = Estados::ACTIVO;
+        $newUser["userrole"]    = UsuarioTipo::PUBLICO;
         $newUser["usergender"]  = $gender;
 
-        $sqlIns = "INSERT INTO usuario (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, usergender) VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :usergender);";
+        $sqlIns = "INSERT INTO usuario (useremail, userpswd, username, userphone, userphone2, useraddress, userbio, userest, userrole, usergender) 
+                    VALUES( :useremail, :userpswd, :username, :userphone, :userphone2, :useraddress, :userbio, :userest, :userrole, :usergender);";
 
         return self::executeNonQuery($sqlIns, $newUser);
+
+    }
+
+    static public function newUsuarioRol($userId)
+    {
+
+        $newUserRol = self::_usuarioRolStruct();
+
+        $newUserRol["usercod"]   = $userId;
+        $newUserRol["rolescod"]    = 1;
+        $newUserRol["roleuserest"]    = Estados::ACTIVO;
+        $newUserRol["roleuserfch"]   = date("Y-m-d");
+        $newUserRol["roleuserexp"]  = date("Y-m-d", strtotime('+5 years'));
+
+        $sqlIns = "INSERT INTO roles_usuarios (usercod, rolescod, roleuserest, roleuserfch, roleuserexp)
+                    VALUES( :usercod, :rolescod, :roleuserest, :roleuserfch, :roleuserexp);";
+
+        return self::executeNonQuery($sqlIns, $newUserRol);
 
     }
 
@@ -106,7 +126,6 @@ class Security extends \Dao\Table
         );
     }
 
-
     static private function _usuarioStruct()
     {
         return array(
@@ -117,7 +136,19 @@ class Security extends \Dao\Table
             "useraddress"  => "",
             "userbio"      => "",
             "userest"      => "",
+            "userrole"     => "",
             "usergender"   => "",
+        );
+    }
+
+    static private function _usuarioRolStruct()
+    {
+        return array(
+            "usercod"      => "",
+            "rolescod"     => "",
+            "roleuserest"  => "",
+            "roleuserfch"  => "",
+            "roleuserexp"  => "",
         );
     }
 

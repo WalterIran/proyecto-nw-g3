@@ -10,7 +10,7 @@ class Products extends PublicController
 
         $viewData = array();
 
-        $products = array(
+        /* $products = array(
             array(
                 "id" => 1,
                 "name" => "Mentolina Lata 12g, 1 de 12",
@@ -91,11 +91,14 @@ class Products extends PublicController
                 "description" => "Mentol, Esencia de Trementina, Alcanfor, Salicilato de metilo, Eucalipto",
                 "price" => 22.53
             ),
-        );
+        ); */
+        if(isset($_GET["search"]))
+        {
+            $search = $_GET["search"];
+            $products = \Dao\Mnt\Products::searchProducts($search);
 
-        $viewData["products"] = $products;//json_encode($products);
-        if(isset($_GET["search"])){
-            $viewData["search"] = $_GET["search"];
+            $viewData["products"] = $products;
+            $viewData["search"] = $search;
         }
 
         \Views\Renderer::render("products/search",$viewData);
