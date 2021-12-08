@@ -13,7 +13,14 @@ class Security {
     }
     public static function logout()
     {
-        unset($_SESSION["login"]);
+        $_SESSION["login"] = array(
+            "isLogged" => false,
+            "userId" => null,
+            "userName" => null,
+            "userEmail" => null,
+            "isAdmin" => false,
+            "private" => false
+        );
     }
     public static function login($userId, $userName, $userEmail, $userRole)
     {

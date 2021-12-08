@@ -29,6 +29,22 @@ abstract class PublicController implements IController
     public function __construct()
     {
         $this->name = get_class($this);
+        
+        if(isset($_SESSION['login']) && $_SESSION['login']['isLogged'] == true){
+            $user = $_SESSION['login']['userId'];
+            $table = 'cart';
+        }else{
+            if(!isset($_SESSION['tmpuserid'])){
+                $_SESSION['tmpuserid'] = bin2hex(random_bytes(15));;
+            }
+            
+            $user = $_SESSION['tmpuserid'];
+            $table = 'tmp_cart';
+        }
+
+        $items = \Dao\Mnt\Product::getCart($table, $user);
+        $_SESSION["cartQty"] = count($items);
+
         if (\Utilities\Security::isLogged() && $_SESSION["login"]["private"]){
             $layoutFile = \Utilities\Context::getContextByKey("PRIVATE_LAYOUT");
             if ($layoutFile !== "") {

@@ -15,7 +15,7 @@ class Product extends PublicController
 
     private function yeah($message)
     {
-        Site::redirectToWithMsg("index.php?page=products", $message);
+        Site::redirectToWithMsg("index.php?page=cart", $message);
     }
     public function run(): void
     {
@@ -37,13 +37,17 @@ class Product extends PublicController
         );
 
         if ($this->isPostBack()) {
-            $viewData["mode"] = $_POST["mode"];
-            $viewData["id"] = $_POST["id"];
-            $viewData["name"] = $_POST["name"];
-            $viewData["provider"] = $_POST["provider"];
-            $viewData["img"] = $_POST["img"];
-            $viewData["description"] = $_POST["description"];
-            $viewData["price"] = $_POST["price"];
+
+            if(isset($_SESSION['login']) && $_SESSION['login']['isLogged'] == true){
+                $table = "cart";
+                $user = $_SESSION['login']['userId'];
+            }else{
+                $table = "tmp_cart";
+                $user = $_SESSION['tmpuserid'];
+            }
+            if (\Dao\Mnt\Product::addToCart($table, $user, $_POST['prdId'], $_POST['price'])) {
+                $this->yeah("Producto agregado éxitosamente.");
+            }
         } else {
             if (isset($_GET["mode"])) {
                 if (!isset($modeDscArr[$_GET["mode"]])) {
@@ -62,13 +66,11 @@ class Product extends PublicController
                 }
             }
         }
-
+        
         if ($viewData["mode"] == "INS") {
             $viewData["mode_dsc"] = $modeDscArr["INS"];
-            if (\Dao\Mnt\Product::addToCart($viewData["name"], $viewData["price"])) {
-                $this->yeah("Producto agregado éxitosamente.");
-            }
             $viewData["isINS"] = true;
+            
         } else {
             $tmpProduct = \Dao\Mnt\Product::getProduct($viewData["id"]);
 

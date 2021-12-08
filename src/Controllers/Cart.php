@@ -8,23 +8,34 @@ class Cart extends PublicController
 {
     public function run():void{
         $viewData = array();
+        
+        if(isset($_SESSION['login']) && $_SESSION['login']['isLogged'] == true){
+            $table = 'cart';
+            $user = $_SESSION['login']['userId'];
+        }else{
+            $table = 'tmp_cart';
+            $user = $_SESSION['tmpuserid'];
+        }
 
-        $items = array(
-            array(
-                "id" => 1,
-                "name" => "Mentolina Sport, tarro 60g",
-                "provider" => "Infarma",
-                "img" => "https://apis.ccc-it.net/api/v1/producto/16945/imagen",
-                "price" => 22.53,
-                "cant" => 2,
-                "subtot" => 45.06
-            ),
+        if($this->isPostBack()){
             
-        );
+            if(isset($_POST['btnAdd'])){
+                \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUM');
+            }else if(isset($_POST['btnSubtract'])){
+                \Dao\Mnt\Product::updatePrdCart($table, $user, $_POST['id'], 'SUB');
+            }else if(isset($_POST['btnDelete'])){
+                \Dao\Mnt\Product::deletePrdCart($table, $user, $_POST['id']);
+            }
+        }
+
+        $items = \Dao\Mnt\Product::getCart($table, $user);
 
         $total = 0;
 
-        foreach ($items as $item){
+        foreach ($items as &$item){
+            $prdInfo = \Dao\Mnt\Product::getProduct($item['prdId']);
+            $item += ['img' => $prdInfo['img'], 'provider' => $prdInfo['provider'], 'name' => $prdInfo['name'], 'id' => $prdInfo['id']];
+            $item['subtot'] = $item['price'] * $item['cant'];
             $total += $item["subtot"];
         }
 

@@ -79,6 +79,7 @@ class Login extends \Controllers\PublicController
                             $dbUser["userrole"]
                         );
                         //dd("aqui se hizo login");
+                        \Dao\Mnt\Product::transferCartLogin($_SESSION['tmpuserid'], $_SESSION['login']['userId']);
                         $this->yeah();
                         if (\Utilities\Context::getContextByKey("redirto") !== "") {
                             \Utilities\Site::redirectTo(

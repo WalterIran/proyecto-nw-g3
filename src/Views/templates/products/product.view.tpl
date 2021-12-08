@@ -12,9 +12,9 @@
                 </div>
             </div>
         </div>
-        <!--Aqui va lo que viene de la bd-->
+        
         <div class="w-full md:w-1/2 px-10">
-        <form action="index.php?page=product&mode={{mode}}&id={{id}}" method="POST">
+            <form action="index.php?page=product&mode={{mode}}" method="post">
                 <div class="mb-10">
                     <h1 class="font-bold uppercase text-2xl mb-5">{{name}}</h1>
                     <p class="text-sm">{{provider}} <br> {{description}}</p>
@@ -25,21 +25,19 @@
                         <span class="font-bold text-5xl leading-none align-baseline">{{price}}</span>
                     </div>
                     {{if showaction}}
-                        <button type="submit" class="bg-green-300 opacity-75 hover:opacity-100 text-green-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold" id="btnAdd" value="G"><i class="mdi mdi-cart -ml-2 mr-2"></i>Agregar al Carrito</button>
+                        <input type="hidden" name="price" id="price" value="{{price}}">
+                        <input type="hidden" name="prdId" id="prdId" value="{{id}}">
+                        <button type="submit" class="bg-green-300 opacity-75 hover:opacity-100 text-green-900 hover:text-gray-900 rounded-full px-10 py-2 font-semibold" name="btnAdd" id="btnAdd"><i class="mdi mdi-cart -ml-2 mr-2"></i>Agregar al Carrito</button>
                     {{endif showaction}}
-                    </div>
                 </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>
+
 <script>
    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("btnAdd").addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        window.location.assign("index.php?page=product&mode=INS");
-      });
+   
     });
 </script>
 

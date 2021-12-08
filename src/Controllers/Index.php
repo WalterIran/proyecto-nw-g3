@@ -36,17 +36,6 @@ class Index extends PublicController
         //Para agregar scripts de javascript externos
         //\Utilities\Site::addEndScript("public/js/sayhello.js");
 
-        if(empty($_SESSION)){
-            $_SESSION["login"] = array(
-                "isLogged" => false,
-                "userId" => null,
-                "userName" => null,
-                "userEmail" => null,
-                "isAdmin" => false,
-                "private" => false
-            );
-        }
-
         $viewData = array();
 
         $viewData["atomicArray"] = array("Hola","Esto","Es","Un","Arreglo");

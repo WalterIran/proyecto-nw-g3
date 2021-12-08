@@ -42,7 +42,7 @@
           </svg>
         </div>
         <div class="absolute -top-1 font-bold -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex justify-center items-center text-sm shadow">
-          0
+          {{cartQty}}
         </div>
       </a>
       <button type="button" id="open-menu" class="lg:hidden">

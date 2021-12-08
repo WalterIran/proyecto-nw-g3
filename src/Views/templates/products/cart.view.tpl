@@ -26,14 +26,31 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
+                        <div class="">
+                            <form action="index.php?page=cart" method="post" class="flex space-x-2">
+                                <input type="hidden" name="id" id="id" value="{{id}}">
+                                <div class="border border-gray-500 p-2">
+                                    x {{cant}}
+                                </div>
+                                <button type="submit" aria-label="Add" id="btnAdd" name="btnAdd" class="hover:bg-gray-200 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+                                <button type="submit" aria-label="Subtract" id="btnSubtract" name="btnSubtract" class="hover:bg-gray-200 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
                         <div class="hidden lg:block">
                             <p class="text-green-500 font-bold">L. {{subtot}}</p>
                         </div>
                         <div class="">
-                            <form action="Cart.php" method="post">
+                            <form action="index.php?page=cart" method="post">
                                 <input type="hidden" name="id" id="id" value="{{id}}">
-                                <input type="hidden" name="mode" value="DEL">
-                                <button class="bg-red-500 text-white p-2 shadow-md rounded-full transition-all duration-150 hover:shadow-none" aria-label="delete from cart">
+                                <button name="btnDelete" id="btnDelete" class="bg-red-500 text-white p-2 shadow-md rounded-full transition-all duration-150 hover:shadow-none" aria-label="delete from cart">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
