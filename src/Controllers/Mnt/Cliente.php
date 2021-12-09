@@ -233,7 +233,7 @@ class Cliente extends PublicController
             $viewData["userest_SUS"] = $tmpCliente["userest"] == "SUS" ? "selected" : "";
 
             $viewData["userrol_PBL"] = $tmpCliente["userrole"] == "PBL" ? "selected": "";
-            $viewData["userrol_ADMIN"] = $tmpCliente["userrole"] == "ADMIN" ? "selected" : "";
+            $viewData["userrol_ADMIN"] = $tmpCliente["userrole"] == "ADM" ? "selected" : "";
             $viewData["userrol_AUD"] = $tmpCliente["userrole"] == "AUD" ? "selected" : "";
 
             $viewData["usergen_MAS"] = $tmpCliente["usergender"] == "M" ? "selected": "";
@@ -256,7 +256,7 @@ class Cliente extends PublicController
         // Generar un token XSRF para evitar esos ataques
         $viewData["xsrftoken"] = md5($this->name . random_int(10000, 99999));
         $_SESSION["xsrftoken"] = $viewData["xsrftoken"];
-
+        
         \Views\Renderer::render("mnt/cliente", $viewData);
     }
 }
