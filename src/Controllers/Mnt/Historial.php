@@ -17,10 +17,11 @@ class Historial extends PrivateController{
             $viewData["userid"] = $_GET["userid"];
             
         } 
-        
-        $tmp = \Dao\Mnt\Historial::obtenerHistorialCliente($viewData["userid"]);
+        $user = $_SESSION['login']['userId'];
+
+        $tmp = \Dao\Mnt\Historial::obtenerHistorialCliente($user);
         //dd($tmp);
-        $viewData["ListaProductosCliente"] = \Dao\Mnt\Historial::obtenerHistorialCliente($viewData["userid"]);
+        $viewData["ListaProductosCliente"] = \Dao\Mnt\Historial::obtenerHistorialCliente($user);
 
         \Views\Renderer::render("mnt/historial", $viewData);
     }
