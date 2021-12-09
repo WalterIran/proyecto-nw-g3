@@ -1,14 +1,14 @@
 <!-- component -->
  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <div class="overflow-x-auto">
-  <div class="min-w-screen flex items-center justify-center font-sans overflow-hidden">
+  <div class="flex items-center justify-center font-sans overflow-hidden">
     <div class="w-full">
     <h1 class="text-3xl py-4 border-b mb-10">Gestión de Productos</h1>
     {{if CanInsert}}
           <button class="bg-green-900 hover:bg-green-600 text-white font-bold py-2 px-4 rounded " id="btnAdd">Nuevo</button>
     {{endif CanInsert}}
     <div class="bg-white shadow-md rounded my-6">
-      <table class="min-w-max w-full table-auto">
+      <table class="w-full table-auto">
         <thead>
           <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               <th class="py-3 px-6 text-left">ID</th>
@@ -17,6 +17,7 @@
               <th class="py-3 px-6 text-center">Imagén</th>
               <th class="py-3 px-6 text-center">Descripción</th>
               <th class="py-3 px-6 text-center">Precio (L)</th>
+              <th class="py-3 px-6 text-center">Cantidad</th>
               <th class="py-3 px-6 text-center">Acciones</th>
           </tr>
         </thead>
@@ -29,6 +30,7 @@
             <td class="py-3 px-6 text-center"><a href="{{img}}" target="_blank">{{img}}</a></td>
             <td class="py-3 px-6 text-center">{{description}}</td>
             <td class="py-3 px-6 text-center">{{price}}</td>
+            <td class="py-3 px-6 text-center">{{prdStock}}</td>
                 <!--Botones de acciones-->
             <td class="py-3 px-6 text-center">
                   <div class="flex item-center justify-center">

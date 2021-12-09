@@ -22,19 +22,20 @@ class Products extends Table{
     }
 
     //C - Create
-    public static function createProduct($name, $provider, $img, $description, $price){
+    public static function createProduct($name, $provider, $img, $description, $price, $prdStock){
         $sqlStr = "INSERT INTO products (
-            name, provider, img, description, price
+            name, provider, img, description, price, prdStock
         )
         VALUES (
-            :name, :provider, :img, :description, :price
+            :name, :provider, :img, :description, :price, :prdStock
         );";
         $parametros = array(
             "name" => $name, 
             "provider" => $provider, 
             "img" => $img, 
             "description" => $description, 
-            "price" => doubleval($price)
+            "price" => doubleval($price),
+            "prdStock" => intval($prdStock)
         );
         return self::executeNonQuery($sqlStr, $parametros);
     }
@@ -46,9 +47,9 @@ class Products extends Table{
     }
 
     //U - Update
-    public static function updateProduct($name, $provider, $img, $description, $price, $id){
+    public static function updateProduct($name, $provider, $img, $description, $price, $prdStock, $id){
         $sqlStr = "UPDATE products 
-        SET name = :name, provider = :provider, img = :img, description = :description, price = :price
+        SET name = :name, provider = :provider, img = :img, description = :description, price = :price, prdStock = :prdStock
         WHERE id = :id;";
         $parametros = array(
             "name" => $name, 
@@ -56,6 +57,7 @@ class Products extends Table{
             "img" => $img, 
             "description" => $description, 
             "price" => doubleval($price),
+            "prdStock" => intval($prdStock),
             "id" => intval($id)
         );
         return self::executeNonQuery($sqlStr, $parametros);

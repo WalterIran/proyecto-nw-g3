@@ -1,4 +1,3 @@
-<!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
 <section style="min-height: calc(100vh - 120px - 32px);" class="w-full my-auto">
   <section class="space-y-2">
     {{foreach items}}

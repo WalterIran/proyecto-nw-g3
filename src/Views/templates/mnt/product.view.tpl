@@ -26,6 +26,9 @@
 
         <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase" for="price">Precio (Lempiras)</label>
         <input class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" type="text" {{readonly}} name="price" value="{{price}}" placeholder="Precio"/>
+
+        <label class="block mt-2 text-xs font-semibold text-gray-600 uppercase" for="prdStock">Cantidad Inventario</label>
+        <input class="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner" type="text" {{readonly}} name="prdStock" value="{{prdStock}}" placeholder="Cantidad Inventario"/>
       
         {{if hasErrors}}
         <section>
