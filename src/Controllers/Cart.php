@@ -54,6 +54,7 @@ class Cart extends PublicController
             $item += ['img' => $prdInfo['img'], 'provider' => $prdInfo['provider'], 'name' => $prdInfo['name'], 'id' => $prdInfo['id']];
             $item['subtot'] = $item['price'] * $item['cant'];
             $total += $item["subtot"];
+            unset($item);
         }
 
         $viewData["items"] = $items;

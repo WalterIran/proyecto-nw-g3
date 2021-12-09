@@ -21,6 +21,7 @@ class Checkout extends PublicController{
             $item += ['img' => $prdInfo['img'], 'dsc' => $prdInfo['description'], 'provider' => $prdInfo['provider'], 'name' => $prdInfo['name'], 'id' => $prdInfo['id']];
             $item['subtot'] = $item['price'] * $item['cant'];
             $total += $item["subtot"];
+            unset($item);
         }
 
         $viewData["items"] = $items;
@@ -38,6 +39,7 @@ class Checkout extends PublicController{
                 "http://localhost/$basedir/index.php?page=checkout_error",
                 "http://localhost/$basedir/index.php?page=checkout_accept"
             );
+            
             foreach($items as $item){
                 $PayPalOrder->addItem($item['name'], $item['dsc'], $item['prdId'], doubleval($item['price']), 15, intval($item['cant']), "DIGITAL_GOODS");
             }
