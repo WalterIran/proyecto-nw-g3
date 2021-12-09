@@ -28,6 +28,7 @@ class Product extends PublicController{
             "img"=>"",
             "description"=>"",
             "price"=>"",
+            "prdStock"=>"",
             "hasErrors"=>false,
             "Errors"=>array(),
             "showaction"=>true,
@@ -51,6 +52,7 @@ class Product extends PublicController{
             $viewData["img"]= $_POST["img"];
             $viewData["description"]= $_POST["description"];
             $viewData["price"]= $_POST["price"];
+            $viewData["prdStock"] = $_POST["prdStock"];
             //dd($_POST);
 
             //Pediente hacer validaciones
@@ -60,13 +62,13 @@ class Product extends PublicController{
                 switch($viewData["mode"])
                 {
                     case "INS":
-                            if(\Dao\Mnt\Products::createProduct($viewData["name"], $viewData["provider"], $viewData["img"], $viewData["description"], $viewData["price"]))
+                            if(\Dao\Mnt\Products::createProduct($viewData["name"], $viewData["provider"], $viewData["img"], $viewData["description"], $viewData["price"], $viewData["prdStock"]))
                             {
                                 $this->yeah("Producto agregado éxitosamente.");
                             }
                     break;
                     case "UPD":
-                        if(\Dao\Mnt\Products::updateProduct($viewData["name"], $viewData["provider"], $viewData["img"], $viewData["description"], $viewData["price"], $viewData["id"]))
+                        if(\Dao\Mnt\Products::updateProduct($viewData["name"], $viewData["provider"], $viewData["img"], $viewData["description"], $viewData["price"], $viewData["prdStock"], $viewData["id"]))
                             {
                                 $this->yeah("Producto actualizado éxitosamente.");
                             }
@@ -118,8 +120,9 @@ class Product extends PublicController{
             $viewData["description"]= $tmpProduct["description"];
             $viewData["img"]= $tmpProduct["img"];
             $viewData["price"]= $tmpProduct["price"];
+            $viewData["prdStock"] = $tmpProduct["prdStock"];
 
-            $viewData["mode_dsc"] = sprintf($modeDscArr[$viewData["mode"]], $viewData["id"], $viewData["name"], $viewData["provider"], $viewData["description"], $viewData["img"], $viewData["price"]);
+            $viewData["mode_dsc"] = sprintf($modeDscArr[$viewData["mode"]], $viewData["id"], $viewData["name"], $viewData["provider"], $viewData["description"], $viewData["img"], $viewData["price"], $viewData["prdStock"]);
             if($viewData["mode"]=="DSP"){
                 $viewData["showaction"]=false;
                 $viewData["readonly"]="readonly";
