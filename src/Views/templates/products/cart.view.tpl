@@ -73,12 +73,15 @@
                     </button>
                 </div>
                 <div class="">
-                    <a href="index.php?page=checkout_checkout&id={{with login}}{{userId}}{{endwith login}}" class="flex justify-between items-center text-white bg-green-500 font-bold w-full h-10 rounded-3xl px-4 transform transition-all duration-150 hover:scale-105">
+                    {{with login}}
+                    <a href="index.php?page=checkout_checkout&id={{userId}}"
+                            class="flex justify-between items-center text-white bg-green-500 font-bold w-full h-10 rounded-3xl px-4 transform transition-all duration-150 hover:scale-105">
                         <span class="flex-auto text-center">CONTINUAR</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </a>
+                    {{endwith login}}
                 </div>
             </div>
         </div>

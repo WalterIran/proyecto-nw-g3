@@ -17,7 +17,7 @@ class Cart extends PublicController
     public function run():void{
         $viewData = array();
         
-        if(isset($_SESSION['login']) && $_SESSION['login']['isLogged'] == true){
+        if(isset($_SESSION['login']) && $_SESSION['login']['isLogged']){
             $table = 'cart';
             $user = $_SESSION['login']['userId'];
         }else{

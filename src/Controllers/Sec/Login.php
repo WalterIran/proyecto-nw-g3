@@ -78,13 +78,15 @@ class Login extends \Controllers\PublicController
                             $dbUser["useremail"],
                             $dbUser["userrole"]
                         );
-                        //dd("aqui se hizo login");
+                        //dd(\Utilities\Context::getContextByKey("redirto")."&id=".$dbUser["usercod"]);
                         \Dao\Mnt\Product::transferCartLogin($_SESSION['tmpuserid'], $_SESSION['login']['userId']);
-                        $this->yeah();
+
                         if (\Utilities\Context::getContextByKey("redirto") !== "") {
-                            \Utilities\Site::redirectTo(
-                                \Utilities\Context::getContextByKey("redirto")
-                            );
+                            if(\Utilities\Context::getContextByKey("redirto") == "/NegociosWeb/proyecto-nw-g3/index.php?page=checkout_checkout"){
+                                \Utilities\Site::redirectTo("/NegociosWeb/proyecto-nw-g3/index.php?page=checkout_checkout&id=".$dbUser["usercod"]);
+                            }else{
+                                \Utilities\Site::redirectTo(\Utilities\Context::getContextByKey("redirto"));
+                            }
                         } else {
                             \Utilities\Site::redirectTo("index.php");
                         }
