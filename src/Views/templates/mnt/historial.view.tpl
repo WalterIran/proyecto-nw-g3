@@ -10,6 +10,7 @@
         <th>Fecha</th>
         <th>Producto</th>
         <th>Cantidad</th>
+        <th>Precio</th>
         <th>Total</th>
       </tr>
     </thead>
@@ -17,9 +18,10 @@
     <tbody class="bg-white">
       {{foreach ListaProductosCliente}}
       <tr>
-        <td>{{fechacompra}}</td>
-        <td>{{productodes}}</td>
-        <td>{{productocan}}</td>
+        <td>{{date}}</td>
+        <td>{{name}}</td>
+        <td>{{cant}}</td>
+        <td>{{price}}</td>
         <td>{{total}}</td>
         
       </tr>
