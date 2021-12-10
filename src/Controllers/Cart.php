@@ -59,6 +59,7 @@ class Cart extends PublicController
 
         $viewData["items"] = $items;
         $viewData["itemCount"] = count($items);
+        $_SESSION["cartQty"] = count($items);
         $viewData["total"] = $total;
 
         \Views\Renderer::render("products/cart",$viewData);
